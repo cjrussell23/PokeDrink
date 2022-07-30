@@ -145,8 +145,8 @@ public class LobbyManager : MonoBehaviour
             {
                 GameObject playerListItemToRemoveObject = playerListItemToRemove.gameObject;
                 playerListItems.Remove(playerListItemToRemove);
-                Destroy(playerListItemToRemoveObject);
                 playerListItemToRemoveObject = null;
+                Destroy(playerListItemToRemoveObject);         
             }
         }
     }
@@ -218,7 +218,7 @@ public class LobbyManager : MonoBehaviour
         foreach (PlayerListItem playerListItem in playerListItems)
         {
             GameObject playerListItemObject = playerListItem.gameObject;
-            Destroy(playerListItemObject);
+            // Destroy(playerListItemObject);
             playerListItemObject = null;
         }
         playerListItems.Clear();
