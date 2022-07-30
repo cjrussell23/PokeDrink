@@ -125,8 +125,7 @@ public class LobbyManager : MonoBehaviour
 
                 playerListItems.Add(newPlayerListItemScript);
             }
-        }
-       
+        }      
     }
     private void RemovePlayerListItems()
     {

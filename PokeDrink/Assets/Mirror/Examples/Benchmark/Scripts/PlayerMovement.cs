@@ -5,7 +5,7 @@ namespace Mirror.Examples.Benchmark
 {
     public class PlayerMovement : NetworkBehaviour
     {
-        public float speed = 5;
+        public float speed = 20;
         public GameObject PlayerModel;
         public SpriteRenderer sprite;
 
@@ -13,21 +13,35 @@ namespace Mirror.Examples.Benchmark
         {
             sprite = PlayerModel.GetComponent<SpriteRenderer>();
             sprite.enabled = false;
+            transform.position = new Vector3(-115, -61, 0);
         }
 
         void Update()
         {
-            if (SceneManager.GetActiveScene().name.Equals("Scene_SteamworksGame"))
-            {
-                // Set active if in game scene
-                if (!sprite.enabled)
-                {
-                    sprite.enabled = true;
-                }
-                if (hasAuthority)
+            SceneManager.activeSceneChanged += SceneChanged;
+            // if (SceneManager.GetActiveScene().name.Equals("Scene_SteamworksGame"))
+            // {
+            //     // Set active if in game scene
+            //     if (!sprite.enabled)
+            //     {
+            //         sprite.enabled = true;
+            //     }
+            //     if (hasAuthority)
+            //     {
+            //         Movement();
+            //     }
+            // }
+            if (hasAuthority)
                 {
                     Movement();
                 }
+        }
+        public void SceneChanged(Scene current, Scene next)
+        {
+            Debug.Log("SceneChanged");
+            if (SceneManager.GetActiveScene().name.Equals("Scene_SteamworksGame"))
+            {
+                sprite.enabled = true;
             }
         }
 
@@ -43,4 +57,5 @@ namespace Mirror.Examples.Benchmark
             transform.position += dir.normalized * (Time.deltaTime * speed);
         }
     }
+
 }
