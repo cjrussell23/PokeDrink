@@ -13,24 +13,13 @@ namespace Mirror.Examples.Benchmark
         {
             sprite = PlayerModel.GetComponent<SpriteRenderer>();
             sprite.enabled = false;
-            transform.position = new Vector3(-115, -61, 0);
+            transform.position = new Vector3(-23, -13, 0);
         }
 
         void Update()
         {
             SceneManager.activeSceneChanged += SceneChanged;
-            // if (SceneManager.GetActiveScene().name.Equals("Scene_SteamworksGame"))
-            // {
-            //     // Set active if in game scene
-            //     if (!sprite.enabled)
-            //     {
-            //         sprite.enabled = true;
-            //     }
-            //     if (hasAuthority)
-            //     {
-            //         Movement();
-            //     }
-            // }
+
             if (hasAuthority)
                 {
                     Movement();
