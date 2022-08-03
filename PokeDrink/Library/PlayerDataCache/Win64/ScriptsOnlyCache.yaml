@@ -527,7 +527,7 @@ ScriptsOnlyBuild:
     className: HorizontalLayoutGroup
   - hash:
       serializedVersion: 2
-      Hash: 3e73faed780260388d0bd5723e975590
+      Hash: 10de194b3a1f0ec038811e4006efd223
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PlayerInfoDisplay

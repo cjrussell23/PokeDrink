@@ -536,8 +536,9 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   playerName: 
+  playerColor: {r: 0, g: 0, b: 0, a: 1}
   playerNameText: {fileID: 3958051403603627575}
-  color: {fileID: 2657579714274016152}
+  playerColorImage: {fileID: 2657579714274016152}
 --- !u!1 &8280327808509786579
 GameObject:
   m_ObjectHideFlags: 0

@@ -27,15 +27,7 @@ public class PlayerInfoDisplay : NetworkBehaviour
         if (isServer)
         {   
             this.playerName = newValue;
-            UpdateUI();
         }
-        if (isClient)
-        {
-            UpdateUI();
-        }
-    }
-    public void UpdateUI()
-    {
-        playerNameText.text = playerName;  
+        this.playerNameText.text = playerName;  
     }
 }
