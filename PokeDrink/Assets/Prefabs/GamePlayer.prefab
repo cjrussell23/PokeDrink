@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2021801946}
   - component: {fileID: 2021801945}
-  - component: {fileID: 2021801944}
   m_Layer: 3
   m_Name: Camera
   m_TagString: Untagged
@@ -75,14 +74,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &2021801944
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2021801943}
-  m_Enabled: 1
 --- !u!1 &4293499901900294055
 GameObject:
   m_ObjectHideFlags: 0
@@ -219,7 +210,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: 
 --- !u!1 &6141406830019278485
 GameObject:
   m_ObjectHideFlags: 0
@@ -544,9 +535,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  displayNameText: {fileID: 3958051403603627575}
-  nameColor: {fileID: 2657579714274016152}
-  canvas: {fileID: 0}
+  playerName: 
+  playerNameText: {fileID: 3958051403603627575}
+  color: {fileID: 2657579714274016152}
 --- !u!1 &8280327808509786579
 GameObject:
   m_ObjectHideFlags: 0
