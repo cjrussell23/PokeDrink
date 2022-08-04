@@ -60,6 +60,6 @@ public class MessageManager : NetworkBehaviour
     [Command(requiresAuthority = false)]
     void CmdSendMessageToPlayers(string newMessage)
     {
-       HandleNewMessageText(messageTextSynced, newMessage);
+        HandleNewMessageText(messageTextSynced, newMessage);
     }
 }

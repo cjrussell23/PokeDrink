@@ -13,7 +13,6 @@ public class PlayerCamera : NetworkBehaviour {
         SceneManager.activeSceneChanged += SceneChanged;
     }
     private void SceneChanged(Scene current, Scene next) {
-        Debug.Log("SceneChanged");
         if (SceneManager.GetActiveScene().name.Equals("Scene_SteamworksGame"))
         {
             // Set active if in game scene
