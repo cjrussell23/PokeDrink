@@ -20,7 +20,7 @@ public class GridMovement : NetworkBehaviour
     {
         sprite = PlayerModel.GetComponent<SpriteRenderer>();
         sprite.enabled = false;
-        transform.position = new Vector3(-24.5f, -12.35f, 0);
+        transform.position = new Vector3(-28f, -12f, 0);
     }
 
     void Update()
@@ -75,16 +75,46 @@ public class GridMovement : NetworkBehaviour
         // Check if the target position is valid
         if (Physics2D.OverlapCircle(targetPos, 0.2f, stopMovement))
         {
-            targetPos = origPos;
+            isMoveing = false;
+            yield break;
         }
-
         while (elapsedTime < timeToMove)
         {
             transform.position = Vector3.Lerp(origPos, targetPos, (elapsedTime / timeToMove));
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-        transform.position = targetPos;
+        float x = transform.position.x;
+        float y = transform.position.y;
+        // if position has drifted more than 0.1f, snap to nearest grid position
+        if (Mathf.Abs(x - Mathf.Round(x)) > 0.1f || Mathf.Abs(y - Mathf.Round(y)) > 0.1f)
+        {
+            transform.position = new Vector3(Mathf.Round(x), Mathf.Round(y), 0);
+        }
+        else // otherwise, move to target position
+        {
+            transform.position = targetPos;
+        }
+        isMoveing = false;
+    }
+    private void OnTriggerEnter2D(Collider2D other) {
+        Debug.Log("Collision with " + other.name);
+        if (other.gameObject.tag == "Teleporter") {
+            Vector3 destination = other.gameObject.GetComponent<Teleporter>().TeleportLocation;
+            
+            StartCoroutine(TeleportPlayer(destination));
+        }
+    }
+    private IEnumerator TeleportPlayer(Vector3 destination){
+        isMoveing = true;
+        float elapsedTime = 0;
+        while (elapsedTime < timeToMove)
+        {
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        transform.position = destination;
+        Debug.Log("Teleporting to " + destination);
         isMoveing = false;
     }
 }

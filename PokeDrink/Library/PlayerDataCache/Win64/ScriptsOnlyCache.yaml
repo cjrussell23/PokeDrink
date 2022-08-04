@@ -14,6 +14,7 @@ ScriptsOnlyBuild:
     - PlayerInfoDisplay
     - PlayerListItem
     - SteamLobby
+    - Teleporter
     Mirror.Components.dll:
     - Mirror.Experimental.NetworkRigidbody2D
     - Mirror.NetworkAnimator
@@ -26,7 +27,6 @@ ScriptsOnlyBuild:
     - UnityEditor.U2D.Sprites.SpriteEditorWindow
     Unity.2D.Tilemap.Editor.dll:
     - UnityEditor.Tilemaps.GridBrush
-    - UnityEditor.Tilemaps.GridBrushEditor
     - UnityEditor.Tilemaps.GridPaintPaletteClipboard
     - UnityEditor.Tilemaps.GridPaintPaletteWindow
     - UnityEditor.Tilemaps.GridPaintingState
@@ -179,6 +179,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 4900}
     - Class: 114
       Script: {instanceID: 5108}
+    - Class: 114
+      Script: {instanceID: 51576}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -212,6 +214,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 50
       Script: {instanceID: 0}
+    - Class: 61
+      Script: {instanceID: 0}
     - Class: 104
       Script: {instanceID: 0}
     - Class: 114
@@ -232,6 +236,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 3210}
     - Class: 114
       Script: {instanceID: 3318}
+    - Class: 114
+      Script: {instanceID: 42918}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -527,7 +533,7 @@ ScriptsOnlyBuild:
     className: HorizontalLayoutGroup
   - hash:
       serializedVersion: 2
-      Hash: 10de194b3a1f0ec038811e4006efd223
+      Hash: bda1ba059f3982a34f3d5536b813fffc
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PlayerInfoDisplay
@@ -1359,10 +1365,16 @@ ScriptsOnlyBuild:
     assemblyName: Mirror.Examples.dll
     namespaceName: Mirror.Examples.NetworkRoom
     className: NetworkRoomPlayerExt
+  - hash:
+      serializedVersion: 2
+      Hash: de7fc86ce0a66dd17e80b90bae7fe967
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Teleporter
   platform: 19
   scenePathNames:
   - Assets/Scenes/Scene_Steamworks.unity
   - Assets/Scenes/Test_Level.unity
   - Assets/Scenes/Scene_SteamworksLobby.unity
   - Assets/Scenes/Scene_SteamworksGame.unity
-  playerPath: C:/Users/chjru/Desktop/Pokedrink Builds/v0.0.3/steamworks-tutorial.exe
+  playerPath: C:/Users/chjru/Desktop/Pokedrink Builds/v0.0.4/PokeDrink.exe
