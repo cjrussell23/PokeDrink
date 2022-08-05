@@ -14,11 +14,18 @@ public class PlayerInfoDisplay : NetworkBehaviour
     // Player Color
     [SyncVar(hook = nameof(HandlePlayerColorUpdate))] public Color playerColor;
     [SerializeField] private Image playerColorImage;
-    private Color[] playerColors = { Color.red, Color.cyan, Color.blue, Color.green};
+    private Color[] playerColors = { Color.red, Color.cyan, Color.blue, Color.green, Color.yellow, Color.magenta };
     public override void OnStartAuthority()
     {
         CmdSetPlayerName(SteamFriends.GetPersonaName().ToString());
-        CmdSetPlayerColor(playerColors[Random.Range(0, playerColors.Length)]);
+        // Assign players color based on their ID, once more players than colors, assign a random color
+        if (connectionToClient.connectionId < playerColors.Length){
+            CmdSetPlayerColor(playerColors[connectionToClient.connectionId]);
+        }
+        else {
+            CmdSetPlayerColor(playerColors[Random.Range(0, playerColors.Length)]);
+        }
+        
     }
     // Player Name
     [Command]

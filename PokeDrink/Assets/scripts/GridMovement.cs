@@ -6,28 +6,34 @@ using UnityEngine.SceneManagement;
 
 public class GridMovement : NetworkBehaviour
 {
+    private Animator animator;
     private bool isMoveing;
     private Vector3 origPos;
     private Vector3 targetPos;
     [SerializeField] private LayerMask stopMovement;
-
-    [SerializeField]
     private float timeToMove = 0.2f;
     public GameObject PlayerModel;
     public SpriteRenderer sprite;
+    private bool canMove;
+    public bool CanMove {
+        get { return canMove; }
+        set { canMove = value; }
+    }
 
     public void Start()
     {
+        canMove = false;
         sprite = PlayerModel.GetComponent<SpriteRenderer>();
         sprite.enabled = false;
         transform.position = new Vector3(-28f, -12f, 0);
+        animator = GetComponent<Animator>();
     }
 
     void Update()
     {
         SceneManager.activeSceneChanged += SceneChanged;
 
-        if (hasAuthority)
+        if (hasAuthority && canMove)
         {
             Movement();
         }
@@ -38,6 +44,7 @@ public class GridMovement : NetworkBehaviour
         if (SceneManager.GetActiveScene().name.Equals("Scene_SteamworksGame"))
         {
             sprite.enabled = true;
+            canMove = true;
         }
     }
 
@@ -47,37 +54,47 @@ public class GridMovement : NetworkBehaviour
             return;
         if (!isMoveing)
         {
-            if (Input.GetKey(KeyCode.W))
-            {
-                StartCoroutine(MovePlayer(Vector3.up));
-            }
-            else if (Input.GetKey(KeyCode.S))
-            {
-                StartCoroutine(MovePlayer(Vector3.down));
-            }
-            else if (Input.GetKey(KeyCode.A))
-            {
-                StartCoroutine(MovePlayer(Vector3.left));
-            }
-            else if (Input.GetKey(KeyCode.D))
-            {
-                StartCoroutine(MovePlayer(Vector3.right));
-            }
+            if (Input.GetAxis("Horizontal") != 0)
+                {
+                    animator.SetFloat("yInput", 0);
+                    animator.SetFloat("xInput", Input.GetAxis("Horizontal"));
+                    if (Input.GetKey(KeyCode.A))
+                    {
+                        StartCoroutine(MovePlayer(Vector3.left));
+                    }
+                    else if (Input.GetKey(KeyCode.D))
+                    {
+                        StartCoroutine(MovePlayer(Vector3.right));
+                    }
+                }
+            else if (Input.GetAxis("Vertical") !=0)
+                {
+                    animator.SetFloat("xInput", 0);
+                    animator.SetFloat("yInput", Input.GetAxis("Vertical"));
+                    if (Input.GetKey(KeyCode.W))
+                    {
+                        StartCoroutine(MovePlayer(Vector3.up));
+                    }
+                    if (Input.GetKey(KeyCode.S))
+                    {
+                        StartCoroutine(MovePlayer(Vector3.down));
+                    }
+                }
         }
     }
 
     public IEnumerator MovePlayer(Vector3 dir)
-    {
-        isMoveing = true;
-        float elapsedTime = 0;
+    {      
         origPos = transform.position;
         targetPos = origPos + dir;
         // Check if the target position is valid
         if (Physics2D.OverlapCircle(targetPos, 0.2f, stopMovement))
         {
-            isMoveing = false;
             yield break;
         }
+        isMoveing = true;
+        animator.SetBool("isWalking", true);
+        float elapsedTime = 0;
         while (elapsedTime < timeToMove)
         {
             transform.position = Vector3.Lerp(origPos, targetPos, (elapsedTime / timeToMove));
@@ -95,6 +112,7 @@ public class GridMovement : NetworkBehaviour
         {
             transform.position = targetPos;
         }
+        animator.SetBool("isWalking", false);
         isMoveing = false;
     }
     private void OnTriggerEnter2D(Collider2D other) {
