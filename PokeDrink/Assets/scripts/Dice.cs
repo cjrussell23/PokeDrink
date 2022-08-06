@@ -7,8 +7,12 @@ using UnityEngine.SceneManagement;
 public class Dice : NetworkBehaviour {
     private Sprite[] diceSides;
     [SerializeField] private Button diceButton;
+    private MovementCounter movementCounter;
+    private ChatManager chatManager;
     private Image image;
 	public override void OnStartAuthority() {
+        movementCounter = GetComponent<MovementCounter>();
+        chatManager = GetComponent<ChatManager>();
         image = diceButton.GetComponent<Image>();
         diceSides = Resources.LoadAll<Sprite>("DiceSides/");
 	}
@@ -38,6 +42,7 @@ public class Dice : NetworkBehaviour {
         }
         finalSide = randomDiceSide + 1;
         Debug.Log(finalSide);
-        gameObject.GetComponent<ChatManager>().CmdSendMessage("Rolled a " + finalSide.ToString());
+        chatManager.CmdSendMessage("Rolled a " + finalSide.ToString());
+        movementCounter.Movement = finalSide;
     }
 }

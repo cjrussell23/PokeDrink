@@ -21,10 +21,7 @@ public class LobbyManager : MonoBehaviour
     private List<PlayerListItem> playerListItems = new List<PlayerListItem>();
     public GameObject localGamePlayerObject;
     public GamePlayer localGamePlayerScript;
-
-
     public ulong currentLobbyId;
-    // Start is called before the first frame update
     private MyNetworkManager game;
     private MyNetworkManager Game
     {
