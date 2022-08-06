@@ -54,7 +54,7 @@ public class GridMovement : NetworkBehaviour
 
     public void SceneChanged(Scene current, Scene next)
     {
-        if (SceneManager.GetActiveScene().name.Equals("Scene_SteamworksGame"))
+        if (next.name.Equals("Scene_SteamworksGame"))
         {
             sprite.enabled = true;
             canMove = true;

@@ -70,7 +70,7 @@ public class ChatManager : NetworkBehaviour{
     }
     [Command]
     public void CmdSendMessage(string message){    
-        RpcHandleMessage($"[{gameObject.GetComponent<PlayerInfoDisplay>().playerName}] {message}");
+        RpcHandleMessage($"[{gameObject.GetComponent<PlayerInfo>().playerName}] {message}");
     }
     [ClientRpc]
     private void RpcHandleMessage(string message){

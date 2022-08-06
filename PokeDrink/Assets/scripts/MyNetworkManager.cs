@@ -7,6 +7,12 @@ using UnityEngine.SceneManagement;
 
 public class MyNetworkManager : NetworkManager
 {
+    public enum GameState
+    {
+        MovementState,
+        CatchState
+    }
+    public GameState currentGameState = GameState.MovementState;
     [SerializeField] private GamePlayer gamePlayerPrefab;
     [SerializeField] public int minPlayers = 1;
     public List<GamePlayer> GamePlayers { get; } = new List<GamePlayer>();
@@ -29,7 +35,6 @@ public class MyNetworkManager : NetworkManager
             bool isGameLeader = GamePlayers.Count == 0; // isLeader is true if the player count is 0, aka when you are the first player to be added to a server/room
 
             GamePlayer GamePlayerInstance = Instantiate(gamePlayerPrefab);
-
             GamePlayerInstance.IsGameLeader = isGameLeader;
             GamePlayerInstance.ConnectionId = conn.connectionId;
             GamePlayerInstance.playerNumber = GamePlayers.Count + 1;
@@ -79,8 +84,6 @@ public class MyNetworkManager : NetworkManager
         Destroy(NetworkManagerObject);
         Shutdown();
         SceneManager.LoadScene("Scene_Steamworks");
-
         Start();
-
     }
 }

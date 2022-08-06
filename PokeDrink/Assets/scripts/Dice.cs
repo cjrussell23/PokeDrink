@@ -41,7 +41,6 @@ public class Dice : NetworkBehaviour {
             yield return new WaitForSeconds(0.05f);
         }
         finalSide = randomDiceSide + 1;
-        Debug.Log(finalSide);
         chatManager.CmdSendMessage("Rolled a " + finalSide.ToString());
         movementCounter.Movement = finalSide;
     }
