@@ -138,7 +138,6 @@ public class GridMovement : NetworkBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("Collision with " + other.name);
         if (other.gameObject.tag == "Teleporter")
         {
             Vector3 destination = other.gameObject.GetComponent<Teleporter>().TeleportLocation;

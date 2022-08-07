@@ -19,6 +19,7 @@ public class ChatManager : NetworkBehaviour{
     public override void OnStartAuthority()
     {
         OnMessage += HandleNewMessage;
+        chatUI.SetActive(false);
     }
     private void Update() {
         SceneManager.activeSceneChanged += SceneChanged;

@@ -71,8 +71,13 @@ public class GameManager : NetworkBehaviour
         localPlayer.GetComponent<PlayerInfo>().UpdateGameStateUI(newValue);
         localPlayer.GetComponent<PlayerInfo>().ChangePlayerReadyState();
         if (newValue == GameState.Movement){
-            localPlayer.GetComponent<Dice>().ResetRolls();
+            localPlayer.GetComponent<Dice>().ResetRolls(1);
         }
+        if (newValue == GameState.Catch){
+            localPlayer.GetComponent<Dice>().ResetRolls(0);
+            localPlayer.GetComponent<CatchPhase>().CheckForGrass();
+        }
+        localPlayer.GetComponent<MovementCounter>().Movement = 0;
 
     }
     [Command(requiresAuthority = false)]

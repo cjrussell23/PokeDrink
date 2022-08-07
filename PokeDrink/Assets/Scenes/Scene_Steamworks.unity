@@ -1924,6 +1924,7 @@ MonoBehaviour:
   playerSpawnMethod: 0
   spawnPrefabs:
   - {fileID: 6141406830019278485, guid: d5ebc752c19faee42b19b97bcb0145e8, type: 3}
+  currentGameScene: 0
   gamePlayerPrefab: {fileID: 6777906575338827274, guid: d5ebc752c19faee42b19b97bcb0145e8,
     type: 3}
   minPlayers: 1
