@@ -7,6 +7,19 @@ using Mirror;
 
 public class PlayerInfo : NetworkBehaviour
 {
+    private MyNetworkManager game;
+    private MyNetworkManager Game
+    {
+        get
+        {
+            if (game != null)
+            {
+                return game;
+            }
+            return game = MyNetworkManager.singleton as MyNetworkManager;
+        }
+    }
+
     // Player Name
     [SyncVar(hook = nameof(HandlePlayerNameUpdate))]
     public string playerName;
@@ -30,9 +43,9 @@ public class PlayerInfo : NetworkBehaviour
         Color.magenta
     };
 
-    // Player Ready Status
-    [SyncVar(hook = nameof(HandlePlayerReadyStatusUpdate))]
-    public bool playerReadyStatus;
+    // Player Ready State
+    [SyncVar(hook = nameof(HandlePlayerReadyStateUpdate))]
+    public bool playerReadyState;
 
     [SerializeField]
     private Button playerReadyButton;
@@ -99,47 +112,45 @@ public class PlayerInfo : NetworkBehaviour
 
     // End Player Color
 
-    // Player Ready Status
-    public void ChangePlayerReadyStatus()
+    // Player Ready State
+    public void ChangePlayerReadyState()
     {
         if (hasAuthority)
         {
-            // Change status to false
-            if (playerReadyStatus)
+            // Change State to false
+            if (playerReadyState)
             {
-                CmdChangePlayerReadyStatus(false);
+                CmdChangePlayerReadyState(false);
                 if (gameManager == null)
                 {
                     gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
                 }
                 gameManager.areAllPlayersReady = false;
             }
-            else // change status to true
+            else // change State to true
             {
-                CmdChangePlayerReadyStatus(true);
+                CmdChangePlayerReadyState(true);
             }
         }
     }
 
     [Command]
-    private void CmdChangePlayerReadyStatus(bool playerReadyStatus)
+    private void CmdChangePlayerReadyState(bool playerReadyState)
     {
-        Debug.Log(
-            "CmdChangePlayerReadyStatus: Changing player ready status to: " + playerReadyStatus
-        );
-        this.HandlePlayerReadyStatusUpdate(this.playerReadyStatus, playerReadyStatus);
+        Debug.Log("CmdChangePlayerReadyState: Changing player ready State to: " + playerReadyState);
+        this.HandlePlayerReadyStateUpdate(this.playerReadyState, playerReadyState);
     }
 
-    public void HandlePlayerReadyStatusUpdate(bool oldValue, bool newValue)
+    public void HandlePlayerReadyStateUpdate(bool oldValue, bool newValue)
     {
-        Debug.Log("Player ready status changed from: " + oldValue + " to: " + newValue);
+        Debug.Log("Player ready State changed from: " + oldValue + " to: " + newValue);
         if (isServer)
         {
-            this.playerReadyStatus = newValue;
+            this.playerReadyState = newValue;
         }
         if (hasAuthority)
         {
-            this.playerReadyButtonImage.color = playerReadyStatus ? Color.green : Color.red;
+            this.playerReadyButtonImage.color = playerReadyState ? Color.green : Color.red;
         }
         if (gameManager == null)
         {
@@ -148,7 +159,7 @@ public class PlayerInfo : NetworkBehaviour
         gameManager.CheckIfAllPlayersAreReady();
     }
 
-    // End Player Ready Status
+    // End Player Ready State
     public void UpdateGameStateUI(GameManager.GameState gameState)
     {
         if (hasAuthority)
@@ -161,7 +172,6 @@ public class PlayerInfo : NetworkBehaviour
             {
                 gameStateText.text = "Catch";
             }
-            // CmdChangePlayerReadyStatus(false);
         }
     }
 }

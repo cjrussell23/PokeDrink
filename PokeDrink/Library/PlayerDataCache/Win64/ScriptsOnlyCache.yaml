@@ -385,7 +385,7 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 4874}
     - Class: 114
-      Script: {instanceID: 49404}
+      Script: {instanceID: 44210}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -533,7 +533,7 @@ ScriptsOnlyBuild:
     className: HorizontalLayoutGroup
   - hash:
       serializedVersion: 2
-      Hash: a272d1c0e1b3f60e74e54e5526af11ad
+      Hash: a129d49b8a4bc6f12a01701028b0975a
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PlayerInfo
@@ -599,7 +599,7 @@ ScriptsOnlyBuild:
     className: MultiSceneNetManager
   - hash:
       serializedVersion: 2
-      Hash: ab27af5c9052f3a994dd5923e1dd4ae7
+      Hash: 6b8483fc61da270e716ed5d62de76e25
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: MyNetworkManager
@@ -635,7 +635,7 @@ ScriptsOnlyBuild:
     className: TMP_StyleSheet
   - hash:
       serializedVersion: 2
-      Hash: 87d9585e2704532a3dbb9144275d1d81
+      Hash: 97498223d887c1601e35430a65e36353
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Dice

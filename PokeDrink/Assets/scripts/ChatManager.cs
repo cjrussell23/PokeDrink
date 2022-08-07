@@ -81,4 +81,9 @@ public class ChatManager : NetworkBehaviour{
         public string text;
         public Text textObject;
     }
+    public void localPlayerMessage(string message){
+        if (hasAuthority) {
+            HandleNewMessage(message);
+        }
+    }
 }

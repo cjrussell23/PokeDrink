@@ -10,7 +10,10 @@ public class Dice : NetworkBehaviour {
     private MovementCounter movementCounter;
     private ChatManager chatManager;
     private Image image;
+    // On Movement state, player gets one roll of the dice.
+    public int remainingRolls;
 	public override void OnStartAuthority() {
+        remainingRolls = 1;
         movementCounter = GetComponent<MovementCounter>();
         chatManager = GetComponent<ChatManager>();
         image = diceButton.GetComponent<Image>();
@@ -19,16 +22,20 @@ public class Dice : NetworkBehaviour {
     private void Update() {
         if(!hasAuthority){return;}
         if(Input.GetKeyDown(KeyCode.R)){
-            StartCoroutine("RollTheDice");
+            ButtonClick();
         }
-    }
-    private void OnMouseDown()
-    {
-        StartCoroutine("RollTheDice");
     }
     public void ButtonClick()
     {
-        StartCoroutine("RollTheDice");
+        if (remainingRolls > 0)
+        {
+            remainingRolls--;
+            StartCoroutine("RollTheDice");
+        }
+        else
+        {
+            chatManager.localPlayerMessage("You have no rolls left!");
+        }
     }
     private IEnumerator RollTheDice()
     {
@@ -43,5 +50,9 @@ public class Dice : NetworkBehaviour {
         finalSide = randomDiceSide + 1;
         chatManager.CmdSendMessage("Rolled a " + finalSide.ToString());
         movementCounter.Movement = finalSide;
+    }
+    public void ResetRolls()
+    {
+        remainingRolls = 1;
     }
 }

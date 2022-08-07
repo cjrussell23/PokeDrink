@@ -1920,7 +1920,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5777373380023297126}
         m_TargetAssemblyTypeName: PlayerInfo, Assembly-CSharp
-        m_MethodName: ChangePlayerReadyStatus
+        m_MethodName: ChangePlayerReadyState
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2189,7 +2189,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  camera: {fileID: 2021801945}
 --- !u!114 &6777906575338827274
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2261,7 +2260,7 @@ MonoBehaviour:
   playerNameText: {fileID: 3958051403603627575}
   playerColor: {r: 0, g: 0, b: 0, a: 1}
   playerColorImage: {fileID: 2657579714274016152}
-  playerReadyStatus: 0
+  playerReadyState: 0
   playerReadyButton: {fileID: 9197297179645339068}
   gameStateText: {fileID: 6928788938260736313}
   gameManager: {fileID: 0}

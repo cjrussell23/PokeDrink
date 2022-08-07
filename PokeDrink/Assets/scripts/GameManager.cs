@@ -33,7 +33,7 @@ public class GameManager : NetworkBehaviour
         areAllPlayersReady = false;
         foreach (GamePlayer player in Game.GamePlayers)
         {
-            if (player.gameObject.GetComponent<PlayerInfo>().playerReadyStatus == true)
+            if (player.gameObject.GetComponent<PlayerInfo>().playerReadyState == true)
             {
                 areAllPlayersReady = true;
             }
@@ -67,7 +67,13 @@ public class GameManager : NetworkBehaviour
         if (isServer){
             this.currentGameState = newValue;
         }
-        GameObject.Find("LocalGamePlayer").GetComponent<PlayerInfo>().UpdateGameStateUI(newValue);
+        GameObject localPlayer = GameObject.Find("LocalGamePlayer");
+        localPlayer.GetComponent<PlayerInfo>().UpdateGameStateUI(newValue);
+        localPlayer.GetComponent<PlayerInfo>().ChangePlayerReadyState();
+        if (newValue == GameState.Movement){
+            localPlayer.GetComponent<Dice>().ResetRolls();
+        }
+
     }
     [Command(requiresAuthority = false)]
     public void CmdChangeGameState(GameState newGameState){

@@ -18,6 +18,7 @@ public class GridMovement : NetworkBehaviour
     public SpriteRenderer sprite;
     private bool canMove;
     private MovementCounter movementCounter;
+    private GameManager gameManager;
     public bool CanMove
     {
         get { return canMove; }
@@ -47,8 +48,13 @@ public class GridMovement : NetworkBehaviour
         }
         if (hasAuthority && canMove)
         {
-            Movement();
-
+            if (gameManager == null)
+            {
+                gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+            }
+            if (gameManager.currentGameState == GameManager.GameState.Movement){
+                Movement();
+            }
         }
     }
 
