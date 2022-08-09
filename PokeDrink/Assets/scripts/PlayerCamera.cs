@@ -5,10 +5,10 @@ using Mirror;
 using UnityEngine.SceneManagement;
 
 public class PlayerCamera : NetworkBehaviour {
-    private Camera camera;
+    private Camera playerCam;
     public void Start(){
-        camera = GetComponentInChildren<Camera>();
-        camera.enabled = false;
+        playerCam = GetComponentInChildren<Camera>();
+        playerCam.enabled = false;
     }
     void Update(){
         SceneManager.activeSceneChanged += SceneChanged;
@@ -19,11 +19,11 @@ public class PlayerCamera : NetworkBehaviour {
             // Set active if in game scene
             if (isLocalPlayer)
             {
-                if (camera == null)
+                if (playerCam == null)
                 {
-                    camera = GetComponentInChildren<Camera>();
+                    playerCam = GetComponentInChildren<Camera>();
                 }
-                camera.enabled = true;
+                playerCam.enabled = true;
             }
         }
     }

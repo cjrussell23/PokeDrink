@@ -26,6 +26,7 @@ public class PlayerInfo : NetworkBehaviour
 
     [SerializeField]
     private Text playerNameText;
+    [SerializeField] private Text playerNameTextMap;
 
     // Player Color
     [SyncVar(hook = nameof(HandlePlayerColorUpdate))]
@@ -33,14 +34,15 @@ public class PlayerInfo : NetworkBehaviour
 
     [SerializeField]
     private Image playerColorImage;
-    private Color[] playerColors =
+    [SerializeField] private Image playerColorImageMap;
+    public Color[] playerColors =
     {
         Color.red,
-        Color.cyan,
-        Color.blue,
         Color.green,
         Color.yellow,
-        Color.magenta
+        Color.magenta,
+        Color.cyan,
+        new Color(0, 0.8f, 1, 1) // light blue
     };
 
     // Player Ready State
@@ -61,9 +63,10 @@ public class PlayerInfo : NetworkBehaviour
         CmdSetPlayerName(SteamFriends.GetPersonaName().ToString());
         playerReadyButtonImage = playerReadyButton.GetComponent<Image>();
         // Assign players color based on their ID, once more players than colors, assign a random color
-        if (connectionToClient.connectionId < playerColors.Length)
+        int connectionId = GetComponent<GamePlayer>().ConnectionId;
+        if (connectionId < playerColors.Length)
         {
-            CmdSetPlayerColor(playerColors[connectionToClient.connectionId]);
+            CmdSetPlayerColor(playerColors[connectionId]);
         }
         else
         {
@@ -88,6 +91,7 @@ public class PlayerInfo : NetworkBehaviour
             this.playerName = newValue;
         }
         this.playerNameText.text = playerName;
+        this.playerNameTextMap.text = playerName;
     }
 
     // End Player Name
@@ -108,6 +112,7 @@ public class PlayerInfo : NetworkBehaviour
             this.playerColor = newValue;
         }
         this.playerColorImage.color = playerColor;
+        this.playerColorImageMap.color = playerColor;
     }
 
     // End Player Color
