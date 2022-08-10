@@ -15,11 +15,11 @@ public class ChatManager : NetworkBehaviour{
     [SerializeField] private List<Message> messageList = new List<Message>();
     [SerializeField] private GameObject playerMapImage;
     private static event Action<string> OnMessage;
-    public Color[] playerColors;
+    private Color[] playerColors;
     public void Start(){
         chatUI.SetActive(false);
         playerMapImage.SetActive(false);
-        playerColors = GetComponent<PlayerInfo>().playerColors;
+        playerColors = GetComponent<PlayerInfo>().PlayerColors;
     }
     public override void OnStartAuthority()
     {
@@ -147,7 +147,7 @@ public class ChatManager : NetworkBehaviour{
     }
     public void localPlayerMessage(string message){
         if (hasAuthority) {
-            HandleNewMessage(message);
+            HandleNewMessage("6" + message);
         }
     }
 }

@@ -25,7 +25,10 @@ public class GameManager : NetworkBehaviour
     }
     void Awake()
     {
-        currentGameState = GameState.Movement;
+        currentGameState = GameState.Catch;
+    }
+    public override void OnStartAuthority(){
+        NextGameState();
     }
     public void CheckIfAllPlayersAreReady()
     {
@@ -68,7 +71,6 @@ public class GameManager : NetworkBehaviour
             this.currentGameState = newValue;
         }
         GameObject localPlayer = GameObject.Find("LocalGamePlayer");
-        localPlayer.GetComponent<PlayerInfo>().UpdateGameStateUI(newValue);
         localPlayer.GetComponent<PlayerInfo>().ChangePlayerReadyState();
         if (newValue == GameState.Movement){
             localPlayer.GetComponent<Dice>().ResetRolls(1);
@@ -78,6 +80,7 @@ public class GameManager : NetworkBehaviour
             localPlayer.GetComponent<CatchPhase>().CheckForGrass();
         }
         localPlayer.GetComponent<MovementCounter>().Movement = 0;
+        localPlayer.GetComponent<PlayerInfo>().UpdateGameStateUI(newValue);
 
     }
     [Command(requiresAuthority = false)]

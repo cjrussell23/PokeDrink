@@ -10,19 +10,23 @@ public class Dice : NetworkBehaviour {
     private MovementCounter movementCounter;
     private ChatManager chatManager;
     private GameManager gameManager;
+    private PlayerInfo playerInfo;
     private Inventory inventory;
     // On Movement state, player gets one roll of the dice.
     public int remainingRolls;
 	public override void OnStartAuthority() {
+        playerInfo = GetComponent<PlayerInfo>();
         inventory = GetComponent<Inventory>();
         remainingRolls = 1;
         movementCounter = GetComponent<MovementCounter>();
         chatManager = GetComponent<ChatManager>();
 	}
-    private void Update() {
-        if(!hasAuthority){return;}
-        if(Input.GetKeyDown(KeyCode.R)){
-            ButtonClick();
+    public void Update(){
+        if (remainingRolls < 1){
+            diceButton.interactable = false;
+        }
+        else{
+            diceButton.interactable = true;
         }
     }
     public void ButtonClick()
@@ -39,12 +43,12 @@ public class Dice : NetworkBehaviour {
     }
     private IEnumerator RollTheDice()
     {
+        playerInfo.gameStateImage.gameObject.SetActive(false);
         int diceSize;
         Pokemon randomPokemon = inventory.GetRandomPokemon();
-        
         if (randomPokemon == null)
         {
-            diceSize = 6;
+            diceSize = 4;
         }
         else
         {

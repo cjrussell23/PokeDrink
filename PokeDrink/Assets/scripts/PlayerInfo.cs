@@ -35,15 +35,19 @@ public class PlayerInfo : NetworkBehaviour
     [SerializeField]
     private Image playerColorImage;
     [SerializeField] private Image playerColorImageMap;
-    public Color[] playerColors =
+    private Color[] playerColors =
     {
         Color.red,
         Color.green,
-        Color.yellow,
-        Color.magenta,
         Color.cyan,
-        new Color(0, 0.8f, 1, 1) // light blue
+        Color.yellow,
+        Color.grey,
+        Color.white
     };
+    public Color[] PlayerColors {
+        get { return playerColors; }
+
+    }
 
     // Player Ready State
     [SyncVar(hook = nameof(HandlePlayerReadyStateUpdate))]
@@ -52,27 +56,32 @@ public class PlayerInfo : NetworkBehaviour
     [SerializeField]
     private Button playerReadyButton;
     private Image playerReadyButtonImage;
+    private Text playerReadyButtonText;
 
     // Game State
     [SerializeField]
     private Text gameStateText;
+    public Image gameStateImage;
     public GameManager gameManager;
+    private CatchPhase catchPhase;
 
     public override void OnStartAuthority()
     {
+        catchPhase = GetComponent<CatchPhase>();
         CmdSetPlayerName(SteamFriends.GetPersonaName().ToString());
         playerReadyButtonImage = playerReadyButton.GetComponent<Image>();
+        playerReadyButtonText = playerReadyButton.GetComponentInChildren<Text>();
         // Assign players color based on their ID, once more players than colors, assign a random color
         int connectionId = GetComponent<GamePlayer>().ConnectionId;
         if (connectionId < playerColors.Length)
         {
+            Debug.Log("Assigining color " + playerColors[connectionId] + " to player " + connectionId + " " + SteamFriends.GetPersonaName());
             CmdSetPlayerColor(playerColors[connectionId]);
         }
         else
         {
             CmdSetPlayerColor(playerColors[Random.Range(0, playerColors.Length)]);
         }
-        UpdateGameStateUI(GameManager.GameState.Movement);
     }
 
     // Player Name
@@ -91,7 +100,7 @@ public class PlayerInfo : NetworkBehaviour
             this.playerName = newValue;
         }
         this.playerNameText.text = playerName;
-        this.playerNameTextMap.text = playerName;
+        this.playerNameTextMap.text = playerName.Substring(0, 1).ToUpper();
     }
 
     // End Player Name
@@ -125,6 +134,7 @@ public class PlayerInfo : NetworkBehaviour
             // Change State to false
             if (playerReadyState)
             {
+                catchPhase.DisableCatchUI();
                 CmdChangePlayerReadyState(false);
                 if (gameManager == null)
                 {
@@ -155,6 +165,7 @@ public class PlayerInfo : NetworkBehaviour
         }
         if (hasAuthority)
         {
+            this.playerReadyButtonText.text = playerReadyState ? "Ready, waiting on other players" : "Not Ready, press space to ready up";
             this.playerReadyButtonImage.color = playerReadyState ? Color.green : Color.red;
         }
         if (gameManager == null)
@@ -171,12 +182,24 @@ public class PlayerInfo : NetworkBehaviour
         {
             if (gameState == GameManager.GameState.Movement)
             {
-                gameStateText.text = "Movement";
+                gameStateText.text = "Roll the Dice to move!";
+                gameStateImage.gameObject.SetActive(true);
             }
-            else if (gameState == GameManager.GameState.Catch)
+            if (gameState == GameManager.GameState.Catch)
             {
-                gameStateText.text = "Catch";
+                if (catchPhase.inGrass){
+                    gameStateText.text = "Roll the Dice to catch the Pokemon!";
+                    gameStateImage.gameObject.SetActive(true);
+                }
+                else {
+                    StartCoroutine(AutoReadyPlayer());
+                }
             }
         }
+    }
+    private IEnumerator AutoReadyPlayer()
+    {
+        yield return new WaitForSeconds(1);
+        ChangePlayerReadyState();
     }
 }

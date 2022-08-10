@@ -43,30 +43,41 @@ public class Inventory : MonoBehaviour
                 GameObject newPokemon = Instantiate(pokemonPrefab, pokemonInventory.transform);
                 pokemonPartyUI[i] = newPokemon;
                 newPokemon.transform.GetChild(0).GetComponent<Image>().sprite = pokemon.GetSprite();
+                newPokemon.transform.GetChild(1).GetComponentInChildren<Text>().text = pokemon.GetCatchDifficulty().ToString();
+                newPokemon.GetComponent<InventoryItem>().SetIndex(i);
                 break;
             }
         }
     }
     private void ReplacePokemon(Pokemon pokemon){
         int pokemonToReplace = FindWeakestPokemon();
+        if (pokemonToReplace == -1)
+        {   
+            chatManager.CmdSendMessage("Could not add " + pokemon.GetName() + "(" + pokemon.GetCatchDifficulty().ToString() + ")" +" to thier party because it is too weak :(");
+            return;
+        }
         if (pokemonParty[pokemonToReplace].GetCatchDifficulty() < pokemon.GetCatchDifficulty())
         {
             Debug.Log("Replacing pokemon " + pokemonParty[pokemonToReplace].GetName() + " with " + pokemon.GetName());
             chatManager.CmdSendMessage("Replaced their " + pokemonParty[pokemonToReplace].GetName() + " with " + pokemon.GetName());
             pokemonParty[pokemonToReplace] = pokemon;
             pokemonPartyUI[pokemonToReplace].transform.GetChild(0).GetComponent<Image>().sprite = pokemon.GetSprite();
+            pokemonPartyUI[pokemonToReplace].transform.GetChild(1).GetComponentInChildren<Text>().text = pokemon.GetCatchDifficulty().ToString();
         }
         else {
-            chatManager.CmdSendMessage("Could not add " + pokemon.GetName() + " to thier party because it is too weak :(");
+            chatManager.CmdSendMessage("Could not add " + pokemon.GetName() + "(" + pokemon.GetCatchDifficulty().ToString() + ")" +" to thier party because it is too weak :(");
             Debug.Log("Pokemon " + pokemon.GetName() + " is not strong enough to replace " + pokemonParty[pokemonToReplace].GetName());
         }
     }
     private int FindWeakestPokemon(){
-        int weakestPokemonIndex = 0;
-        for (int i = 1; i < pokemonParty.Length; i++)
+        int weakestPokemonIndex = -1;
+        for (int i = 0; i < pokemonParty.Length; i++)
         {
-            if (pokemonParty[i] != null)
+            if (pokemonParty[i] != null && !pokemonParty[i].GetIsLocked())
             {
+                if (weakestPokemonIndex == -1){
+                    weakestPokemonIndex = i;
+                }
                 if (pokemonParty[i].GetCatchDifficulty() < pokemonParty[weakestPokemonIndex].GetCatchDifficulty())
                 {
                     weakestPokemonIndex = i;
@@ -83,5 +94,9 @@ public class Inventory : MonoBehaviour
         int randomIndex = Random.Range(0, pokemonInParty);
         Debug.Log("Random index is " + randomIndex);
         return pokemonParty[randomIndex];
+    }
+    public void LockPokemon(int index, bool lockState){
+        pokemonParty[index].SetIsLocked(lockState);
+        Debug.Log(pokemonParty[index].GetName() + " lockState set to " + lockState);
     }
 }

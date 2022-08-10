@@ -8,6 +8,7 @@ ScriptsOnlyBuild:
     - GamePlayer
     - GridMovement
     - Inventory
+    - InventoryItem
     - LobbyListItem
     - LobbyManager
     - MainMenuManager
@@ -31,7 +32,6 @@ ScriptsOnlyBuild:
     - UnityEditor.U2D.Sprites.SpriteEditorWindow
     Unity.2D.Tilemap.Editor.dll:
     - UnityEditor.Tilemaps.GridBrush
-    - UnityEditor.Tilemaps.GridBrushEditor
     - UnityEditor.Tilemaps.GridPaintPaletteClipboard
     - UnityEditor.Tilemaps.GridPaintPaletteWindow
     - UnityEditor.Tilemaps.GridPaintingState
@@ -202,6 +202,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 5118}
     - Class: 114
       Script: {instanceID: 5354}
+    - Class: 114
+      Script: {instanceID: 121178}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -461,7 +463,7 @@ ScriptsOnlyBuild:
     className: Selectable
   - hash:
       serializedVersion: 2
-      Hash: df4e3f21eaca398bd9feca7380128e3b
+      Hash: e3b4172188e03ee9943648b9aa063ffa
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: CatchPhase
@@ -491,7 +493,7 @@ ScriptsOnlyBuild:
     className: HorizontalLayoutGroup
   - hash:
       serializedVersion: 2
-      Hash: 681e6747456509bb1b986becad2fe38b
+      Hash: 85f7c411b1285410e1a334744a58c86d
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PlayerInfo
@@ -1259,7 +1261,7 @@ ScriptsOnlyBuild:
     className: NetworkRoomManager
   - hash:
       serializedVersion: 2
-      Hash: fac9bd2dcfb41c93f9785f173f5600c6
+      Hash: 7f7bd6a711e53f988e7ad629bf0820e8
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: MovementCounter
@@ -1313,7 +1315,7 @@ ScriptsOnlyBuild:
     className: ActivationPlayableAsset
   - hash:
       serializedVersion: 2
-      Hash: 77c739e479a4fcd9de40e78c50d004cc
+      Hash: c85b5bd7f62bb683dc22a3a6a42134ea
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: ChatManager
@@ -1347,6 +1349,12 @@ ScriptsOnlyBuild:
     assemblyName: Mirror.Examples.dll
     namespaceName: Mirror.Examples.NetworkRoom
     className: NetworkRoomPlayerExt
+  - hash:
+      serializedVersion: 2
+      Hash: 1b03930ffadf614de90477b2701ae8fb
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: InventoryItem
   platform: 19
   scenePathNames:
   - Assets/Scenes/Scene_Steamworks.unity

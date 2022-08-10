@@ -17,7 +17,7 @@ public class CatchPhase : MonoBehaviour
     // Grass layer for pokemon detection
     [SerializeField]
     private LayerMask grassLayerMask;
-    private bool inGrass;
+    public bool inGrass;
     // UI 
     [SerializeField]
     private Image encounterImage;
@@ -26,14 +26,33 @@ public class CatchPhase : MonoBehaviour
     [SerializeField]
     private Image pokemonImage;
 
+    // Battle 
+    public bool inBattle;
+    public LayerMask playerLayerMask;
+
     void Start()
     {
+        playerLayerMask = LayerMask.GetMask("Player");
         chatManager = gameObject.GetComponent<ChatManager>();
         pokemonController = GameObject.Find("Pokemon").GetComponent<PokemonController>();
     }
 
     // Update is called once per frame
     void Update() { }
+    public bool CheckForBattle(){
+        // Check if player is next to another player
+        Vector3 position = transform.position;
+        if (Physics2D.OverlapCircle(position, 1.0f, playerLayerMask))
+        {
+            Debug.Log("Player is next to another player, Starting Battle");
+            inBattle = true;
+        }
+        else
+        {
+            inBattle = false;
+        }
+        return inBattle;
+    }
 
     public void CheckForGrass()
     {
@@ -53,8 +72,25 @@ public class CatchPhase : MonoBehaviour
 
     public void CheckForPokemon()
     {
-        int randomIndex = Random.Range(0, pokemonController.Length());
-        pokemon = pokemonController.GetPokemon(randomIndex);
+        int pokemonRarity;
+        int random = Random.Range(1, 101);
+        if (random <= 70)
+        {
+            pokemonRarity = 1; // common
+        }
+        else if (random <= 85)
+        {
+            pokemonRarity = 2; // uncommon
+        }
+        else if (random <= 95)
+        {
+            pokemonRarity = 3; // rare
+        }
+        else
+        {
+            pokemonRarity = 4; // Legendary
+        }
+        pokemon = pokemonController.GetRandomPokemon(pokemonRarity);
         pokemonName = pokemon.GetName();
         pokemonSprite = pokemon.GetSprite();
         catchDifficulty = pokemon.GetCatchDifficulty();
@@ -93,17 +129,23 @@ public class CatchPhase : MonoBehaviour
             chatManager.CmdSendMessage("Failed to catch the " + pokemonName + ". It rolled a " + pokemonRoll.ToString());
             encounterImage.gameObject.SetActive(false);
         }
-        // Reset pokemon name
+        DisableCatchUI();
+    }
+    // Test function
+    public void AddRandomPokemonToParty(){
+        pokemon = pokemonController.GetRandomPokemon(Random.Range(1, 4));
+        gameObject.GetComponent<Inventory>().AddPokemon(pokemon);
+        Debug.Log("Added " + pokemon.GetName() + " to party");
+    }
+    public void DisableCatchUI()
+    {
         pokemonNameText.text = "";
         pokemonName = "";
-        // Reset pokemon sprite
         pokemonSprite = null;
         pokemonImage.sprite = null;
-        // Reset catch difficulty
         catchDifficulty = 0;
-        pokemonRoll = 0;
         pokemon = null;
-        // Reset inGrass
         inGrass = false;
+        encounterImage.gameObject.SetActive(false);
     }
 }

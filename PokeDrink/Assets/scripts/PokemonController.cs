@@ -161,51 +161,51 @@ public class PokemonController : MonoBehaviour
     };
     private int[] pokemonCatchDifficulty = {
         // "Bulbasaur",
-        6,
+        4,
         // "Ivysaur",
         10,
         // "Venusaur",
         20,
         // "Charmander",
-        6,
+        4,
         // "Charmeleon",
         10,
         // "Charizard",
         20,
         // "Squirtle",
-        6,
+        4,
         // "Wartortle",
         10,
         // "Blastoise",
         20,
         // "Caterpie",
-        6,
+        4,
         // "Metapod",
-        10,
+        8,
         // "Butterfree",
-        20,
+        12,
         // "Weedle",
-        6,
+        4,
         // "Kakuna",
-        10,
+        8,
         // "Beedrill",
-        20,
+        12,
         // "Pidgey",
-        6,
+        4,
         //  "Pidgeotto",
-        10,
+        8,
         // "Pidgeot",
-        20,
+        12,
         // "Rattata",
-        6,
+        4,
         // "Raticate",
         10,
         // "Spearow",
-        6,
+        4,
         // "Fearow",
         10,
         // "Ekans",
-        6,
+        4,
         // "Arbok",
         10,
         // "Pikachu",
@@ -241,7 +241,7 @@ public class PokemonController : MonoBehaviour
         // "Wigglytuff",
         10,
         // "Zubat",
-        6,
+        4,
         // "Golbat",
         10,
         // "Oddish",
@@ -277,7 +277,7 @@ public class PokemonController : MonoBehaviour
         // "Growlithe",
         6,
         // "Arcanine",
-        10,
+        12,
         // "Poliwag",
         6,
         // "Poliwhirl",
@@ -381,9 +381,9 @@ public class PokemonController : MonoBehaviour
         // "Weezing",
         10,
         // "Rhyhorn",
-        6,
+        8,
         // "Rhydon",
-        10,
+        12,
         // "Chansey",
         10,
         // "Tangela",
@@ -417,53 +417,57 @@ public class PokemonController : MonoBehaviour
         // "Tauros",
         10,
         // "Magikarp",
-        6,
+        4,
         // "Gyarados",
-        10,
+        20,
         // "Lapras",
-        10,
+        16,
         // "Ditto",
         10,
         // "Eevee",
         6,
         // "Vaporeon",
-        10,
+        12,
         // "Jolteon",
-        10,
+        12,
         // "Flareon",
-        10,
+        12,
         // "Porygon",
         10,
         // "Omanyte",
         6,
         // "Omastar",
-        10,
+        12,
         // "Kabuto",
         6,
         // "Kabutops",
-        10,
+        12,
         // "Aerodactyl",
-        10,
+        12,
         // "Snorlax",
-        10,
+        16,
         // "Articuno",
-        20,
+        30,
         // "Zapdos",
-        20,
+        30,
         // "Moltres",
-        20,
+        30,
         // "Dratini",
-        6,
+        8,
         // "Dragonair",
-        10,
+        12,
         // "Dragonite",
-        20,
+        22,
         // "Mewtwo",
-        20,
+        40,
         // "Mew"
-        20
+        30
     };
     private Pokemon[] pokemon = new Pokemon[151];
+    private ArrayList commonPokemon = new ArrayList();
+    private ArrayList uncommonPokemon = new ArrayList();
+    private ArrayList rarePokemon = new ArrayList();
+    private ArrayList legendaryPokemon = new ArrayList();
     private Sprite[] pokemonSprites;
     void Awake(){
         DontDestroyOnLoad(this.gameObject);
@@ -483,10 +487,48 @@ public class PokemonController : MonoBehaviour
         {
             pokemon[i] = new Pokemon(pokemonNames[i], pokemonSprites[i], pokemonCatchDifficulty[i]);
         }
+        foreach (Pokemon p in pokemon)
+        {
+            if (p.GetCatchDifficulty() <= 6)
+            {
+                commonPokemon.Add(p);
+            }
+            else if (p.GetCatchDifficulty() <= 10)
+            {
+                uncommonPokemon.Add(p);
+            }
+            else if (p.GetCatchDifficulty() <= 20)
+            {
+                rarePokemon.Add(p);
+            }
+            else
+            {
+                legendaryPokemon.Add(p);
+            }
+        }
     }
-    public Pokemon GetPokemon(int index)
+    public Pokemon GetRandomPokemon(int rarity)
     {
-        return pokemon[index];
+        if (rarity == 1)
+        {
+            return (Pokemon)commonPokemon[Random.Range(0, commonPokemon.Count)];
+        }
+        else if (rarity == 2)
+        {
+            return (Pokemon)uncommonPokemon[Random.Range(0, uncommonPokemon.Count)];
+        }
+        else if (rarity == 3)
+        {
+            return (Pokemon)rarePokemon[Random.Range(0, rarePokemon.Count)];
+        }
+        else if (rarity == 4)
+        {
+            return (Pokemon)legendaryPokemon[Random.Range(0, legendaryPokemon.Count)];
+        }
+        else
+        {
+            return null;
+        }
     }
     public int Length()
     {
@@ -497,10 +539,12 @@ public class Pokemon {
     private string name;
     private Sprite sprite;
     private int catchDifficulty;
+    private bool isLocked;
     public Pokemon (string name, Sprite sprite, int catchDifficulty) {
         this.name = name;
         this.sprite = sprite;
         this.catchDifficulty = catchDifficulty;
+        this.isLocked = false;
     }
     public string GetName()
     {
@@ -513,5 +557,13 @@ public class Pokemon {
     public int GetCatchDifficulty()
     {
         return catchDifficulty;
+    }
+    public bool GetIsLocked()
+    {
+        return isLocked;
+    }
+    public void SetIsLocked(bool isLocked)
+    {
+        this.isLocked = isLocked;
     }
 }

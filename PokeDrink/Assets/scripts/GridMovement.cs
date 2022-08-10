@@ -19,6 +19,9 @@ public class GridMovement : NetworkBehaviour
     private bool canMove;
     private MovementCounter movementCounter;
     private GameManager gameManager;
+    // Other scripts that have controls
+    private Dice dice;
+    private PlayerInfo playerInfo;
     public bool CanMove
     {
         get { return canMove; }
@@ -27,6 +30,8 @@ public class GridMovement : NetworkBehaviour
 
     public void Start()
     {
+        playerInfo = GetComponent<PlayerInfo>();
+        dice = GetComponent<Dice>();
         movementCounter = GetComponent<MovementCounter>();
         canMove = false;
         sprite = PlayerModel.GetComponent<SpriteRenderer>();
@@ -56,6 +61,15 @@ public class GridMovement : NetworkBehaviour
                 Movement();
             }
         }
+        // Other controls
+        if (hasAuthority){
+            if (Input.GetKeyDown(KeyCode.R)){
+                dice.ButtonClick();
+            }
+            if (Input.GetKeyDown(KeyCode.Space)){
+                playerInfo.ChangePlayerReadyState();
+            }
+        } 
     }
 
     public void SceneChanged(Scene current, Scene next)
