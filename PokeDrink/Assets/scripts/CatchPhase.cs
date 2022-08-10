@@ -25,6 +25,7 @@ public class CatchPhase : MonoBehaviour
     private Text pokemonNameText;
     [SerializeField]
     private Image pokemonImage;
+    [SerializeField] private Text catchDifficultyText;
 
     // Battle 
     public bool inBattle;
@@ -99,6 +100,7 @@ public class CatchPhase : MonoBehaviour
         );
         pokemonNameText.text = pokemonName;
         pokemonImage.sprite = pokemonSprite;
+        catchDifficultyText.text = pokemonName + " :CP " + catchDifficulty;
         encounterImage.gameObject.SetActive(true);
         gameObject.GetComponent<Dice>().ResetRolls(1);
     }

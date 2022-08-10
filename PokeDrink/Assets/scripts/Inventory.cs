@@ -9,18 +9,33 @@ public class Inventory : MonoBehaviour
     private Pokemon[] pokemonParty = new Pokemon[6];
     private GameObject[] pokemonPartyUI = new GameObject[6];
     private ChatManager chatManager;
+    private PokemonController pokemonController;
     [SerializeField] private GameObject pokemonPrefab;
     [SerializeField] private GameObject pokemonInventory;
+    [SerializeField] private GameObject starterSelectionCanvas;
     // Start is called before the first frame update
     void Start()
     {
+        pokemonController = GameObject.Find("Pokemon").GetComponent<PokemonController>();
         chatManager = gameObject.GetComponent<ChatManager>();
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+    private void DisableStarterPokemonSelectionCanvas(){
+        starterSelectionCanvas.SetActive(false);
+    }
+    public void StarterCharmander(){
+        Pokemon starter = pokemonController.GetPokemon(3);
+        AddPokemon(starter);
+        DisableStarterPokemonSelectionCanvas();
+    }
+    public void StarterSquirtle(){
+        Pokemon starter = pokemonController.GetPokemon(6);
+        AddPokemon(starter);
+        DisableStarterPokemonSelectionCanvas();
+    }
+    public void StarterBulbasaur(){
+        Pokemon starter = pokemonController.GetPokemon(0);
+        AddPokemon(starter);
+        DisableStarterPokemonSelectionCanvas();
     }
     public void AddPokemon(Pokemon pokemon)
     {

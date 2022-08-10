@@ -530,6 +530,10 @@ public class PokemonController : MonoBehaviour
             return null;
         }
     }
+    public Pokemon GetPokemon(int index)
+    {
+        return pokemon[index];
+    }
     public int Length()
     {
         return pokemon.Length;
