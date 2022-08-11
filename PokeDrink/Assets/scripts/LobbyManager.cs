@@ -234,12 +234,15 @@ public class LobbyManager : MonoBehaviour
         if (areAllPlayersReady)
         {
             Debug.Log("CheckIfAllPlayersAreReady: All players are ready!");
-            if (localGamePlayerScript.IsGameLeader)
+            if (localGamePlayerScript != null)
             {
-                Debug.Log(
-                    "CheckIfAllPlayersAreReady: Local player is the game leader. They can start the game now."
-                );
-                StartGameButton.gameObject.SetActive(true);
+                if (localGamePlayerScript.IsGameLeader)
+                {
+                    Debug.Log(
+                        "CheckIfAllPlayersAreReady: Local player is the game leader. They can start the game now."
+                    );
+                    StartGameButton.gameObject.SetActive(true);
+                }
             }
         }
         else

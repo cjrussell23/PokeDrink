@@ -81,7 +81,15 @@ public class Dice : NetworkBehaviour {
         }
         if (gameManager.currentGameState == GameManager.GameState.Catch)
         {
-            gameObject.GetComponent<CatchPhase>().Catch(finalSide);
+            CatchPhase catchPhase = GetComponent<CatchPhase>();
+            if (catchPhase.inGrass)
+            {
+                catchPhase.Catch(finalSide);
+            }
+            else if (catchPhase.inBattle)
+            {
+                catchPhase.Attack(finalSide, randomPokemon);
+            }
         }
     }
     public void ResetRolls(int rolls)

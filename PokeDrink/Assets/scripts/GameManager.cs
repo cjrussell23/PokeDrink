@@ -23,12 +23,9 @@ public class GameManager : NetworkBehaviour
             return game = MyNetworkManager.singleton as MyNetworkManager;
         }
     }
-    void Awake()
+    public override void OnStartAuthority()
     {
-        currentGameState = GameState.Catch;
-    }
-    public override void OnStartAuthority(){
-        NextGameState();
+        currentGameState = GameState.Movement;
     }
     public void CheckIfAllPlayersAreReady()
     {
@@ -78,6 +75,7 @@ public class GameManager : NetworkBehaviour
         if (newValue == GameState.Catch){
             localPlayer.GetComponent<Dice>().ResetRolls(0);
             localPlayer.GetComponent<CatchPhase>().CheckForGrass();
+            localPlayer.GetComponent<CatchPhase>().CheckForBattle();
         }
         localPlayer.GetComponent<MovementCounter>().Movement = 0;
         localPlayer.GetComponent<PlayerInfo>().UpdateGameStateUI(newValue);

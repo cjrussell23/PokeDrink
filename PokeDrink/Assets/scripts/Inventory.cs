@@ -16,6 +16,7 @@ public class Inventory : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        starterSelectionCanvas.gameObject.SetActive(true);
         pokemonController = GameObject.Find("Pokemon").GetComponent<PokemonController>();
         chatManager = gameObject.GetComponent<ChatManager>();
     }

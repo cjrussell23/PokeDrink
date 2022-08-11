@@ -165,7 +165,7 @@ public class PlayerInfo : NetworkBehaviour
         }
         if (hasAuthority)
         {
-            this.playerReadyButtonText.text = playerReadyState ? "Ready, waiting on other players" : "Not Ready, press space to ready up";
+            this.playerReadyButtonText.text = playerReadyState ? "Ready, waiting on other players" : "Not Ready, press SPACE to ready up";
             this.playerReadyButtonImage.color = playerReadyState ? Color.green : Color.red;
         }
         if (gameManager == null)
@@ -188,7 +188,11 @@ public class PlayerInfo : NetworkBehaviour
             if (gameState == GameManager.GameState.Catch)
             {
                 if (catchPhase.inGrass){
-                    gameStateText.text = "Roll the Dice to catch the Pokemon!";
+                    gameStateText.text = "Roll the Dice to catch the Pokemon!\n(SPACE) to run away.";
+                    gameStateImage.gameObject.SetActive(true);
+                }
+                else if (catchPhase.inBattle){
+                    gameStateText.text = "Roll the Dice to attack!";
                     gameStateImage.gameObject.SetActive(true);
                 }
                 else {
@@ -201,5 +205,9 @@ public class PlayerInfo : NetworkBehaviour
     {
         yield return new WaitForSeconds(1);
         ChangePlayerReadyState();
+    }
+    public void ToggleGameStateImage(bool toggle)
+    {
+        gameStateImage.gameObject.SetActive(toggle);
     }
 }

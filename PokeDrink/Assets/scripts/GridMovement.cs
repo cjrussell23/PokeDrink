@@ -22,6 +22,7 @@ public class GridMovement : NetworkBehaviour
     // Other scripts that have controls
     private Dice dice;
     private PlayerInfo playerInfo;
+    private CatchPhase catchPhase;
     public bool CanMove
     {
         get { return canMove; }
@@ -30,6 +31,7 @@ public class GridMovement : NetworkBehaviour
 
     public void Start()
     {
+        catchPhase = GetComponent<CatchPhase>();
         playerInfo = GetComponent<PlayerInfo>();
         dice = GetComponent<Dice>();
         movementCounter = GetComponent<MovementCounter>();
@@ -67,7 +69,12 @@ public class GridMovement : NetworkBehaviour
                 dice.ButtonClick();
             }
             if (Input.GetKeyDown(KeyCode.Space)){
-                playerInfo.ChangePlayerReadyState();
+                if (catchPhase.inGrass && gameManager.currentGameState == GameManager.GameState.Catch){
+                    catchPhase.RunAway();
+                }
+                else {
+                    playerInfo.ChangePlayerReadyState();
+                }
             }
         } 
     }

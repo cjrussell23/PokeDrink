@@ -22,37 +22,77 @@ public class CatchPhase : MonoBehaviour
     [SerializeField]
     private Image encounterImage;
     [SerializeField]
-    private Text pokemonNameText;
+    private Text encounterMessage;
     [SerializeField]
     private Image pokemonImage;
     [SerializeField] private Text catchDifficultyText;
 
     // Battle 
     public bool inBattle;
-    public LayerMask playerLayerMask;
+    [SerializeField]
+    public LayerMask gymLayerMask;
+    private int gymRoll;
+    private Pokemon gymPokemon;
+    private string gymLeaderName;
+    private PlayerInfo playerInfo;
+    private Dice dice;
 
     void Start()
     {
-        playerLayerMask = LayerMask.GetMask("Player");
+        dice = GetComponent<Dice>();
+        playerInfo = GetComponent<PlayerInfo>();
         chatManager = gameObject.GetComponent<ChatManager>();
         pokemonController = GameObject.Find("Pokemon").GetComponent<PokemonController>();
     }
-
-    // Update is called once per frame
-    void Update() { }
     public bool CheckForBattle(){
-        // Check if player is next to another player
+        Debug.Log("CheckForBattle");
         Vector3 position = transform.position;
-        if (Physics2D.OverlapCircle(position, 1.0f, playerLayerMask))
+        Collider2D gym = Physics2D.OverlapCircle(position, 0.3f, gymLayerMask);
+        if (gym)
         {
-            Debug.Log("Player is next to another player, Starting Battle");
+            Debug.Log("Player is in a gym, Startin battle");
+            GymEncounter gymEncounter = gym.gameObject.GetComponent<GymEncounter>();
             inBattle = true;
+            StartBattle(gymEncounter);
         }
         else
         {
+            Debug.Log("Player is not in a gym");
             inBattle = false;
         }
         return inBattle;
+    }
+    public void StartBattle(GymEncounter gymEncounter){
+        Debug.Log("StartBattle");
+        Pokemon[] gymPokemonParty = gymEncounter.GetPokemonParty();
+        gymPokemon = gymPokemonParty[Random.Range(0, gymPokemonParty.Length)];
+        gymLeaderName = gymEncounter.GetGymLeaderName();
+        gymRoll = Random.Range(1, gymPokemon.GetCatchDifficulty() + 1);
+        encounterMessage.text = gymLeaderName + " sent out " + gymPokemon.GetName();
+        pokemonImage.sprite = gymPokemon.GetSprite();
+        catchDifficultyText.text = gymPokemon.GetName() + " :CP" + gymPokemon.GetCatchDifficulty();
+        encounterImage.gameObject.SetActive(true);
+        gameObject.GetComponent<Dice>().ResetRolls(1);
+    }
+    public void Attack(int roll, Pokemon pokemon){
+        Debug.Log("Attack");
+        if (roll > gymRoll)
+        {
+            encounterMessage.text = pokemon.GetName() + " defeated " + gymLeaderName + "'s " + gymPokemon.GetName() + "!";
+            chatManager.CmdSendMessage(pokemon.GetName() + " defeated " + gymLeaderName + "'s " + gymPokemon.GetName() + "!");
+        }
+        else
+        {
+            encounterMessage.text = pokemon.GetName() + " lost to " + gymLeaderName + "'s " + gymPokemon.GetName() + "!";
+            chatManager.CmdSendMessage(pokemon.GetName() + " lost to " + gymLeaderName + "'s " + gymPokemon.GetName() + "!");
+        }
+        StartCoroutine(WaitForText());
+    }
+    private IEnumerator WaitForText(){
+        yield return new WaitForSeconds(1.5f);
+        encounterImage.gameObject.SetActive(false);
+        DisableCatchUI();
+        playerInfo.ChangePlayerReadyState();
     }
 
     public void CheckForGrass()
@@ -98,7 +138,7 @@ public class CatchPhase : MonoBehaviour
         Debug.Log(
             gameObject.GetComponent<PlayerInfo>().playerName + " encountered a " + pokemonName
         );
-        pokemonNameText.text = pokemonName;
+        encounterMessage.text = "A Wild " + pokemonName + " Appeared!";
         pokemonImage.sprite = pokemonSprite;
         catchDifficultyText.text = pokemonName + " :CP " + catchDifficulty;
         encounterImage.gameObject.SetActive(true);
@@ -116,10 +156,10 @@ public class CatchPhase : MonoBehaviour
         {
             chatManager.CmdSendMessage("Caught the " + pokemonName);
             gameObject.GetComponent<Inventory>().AddPokemon(pokemon);
+            encounterMessage.text = "You caught the " + pokemonName + "!";
             Debug.Log(
                 gameObject.GetComponent<PlayerInfo>().playerName + " caught the " + pokemonName
             );
-            encounterImage.gameObject.SetActive(false);
         }
         else
         {
@@ -128,10 +168,10 @@ public class CatchPhase : MonoBehaviour
                     + "Failed to catch the "
                     + pokemonName
             );
+            encounterMessage.text = pokemonName + " ran away...";
             chatManager.CmdSendMessage("Failed to catch the " + pokemonName + ". It rolled a " + pokemonRoll.ToString());
-            encounterImage.gameObject.SetActive(false);
         }
-        DisableCatchUI();
+        StartCoroutine(WaitForText());
     }
     // Test function
     public void AddRandomPokemonToParty(){
@@ -141,7 +181,7 @@ public class CatchPhase : MonoBehaviour
     }
     public void DisableCatchUI()
     {
-        pokemonNameText.text = "";
+        encounterMessage.text = "";
         pokemonName = "";
         pokemonSprite = null;
         pokemonImage.sprite = null;
@@ -149,5 +189,11 @@ public class CatchPhase : MonoBehaviour
         pokemon = null;
         inGrass = false;
         encounterImage.gameObject.SetActive(false);
+    }
+    public void RunAway(){
+        encounterMessage.text = "You ran away!";
+        dice.ResetRolls(0);
+        StartCoroutine(WaitForText());
+        playerInfo.ToggleGameStateImage(false);
     }
 }
