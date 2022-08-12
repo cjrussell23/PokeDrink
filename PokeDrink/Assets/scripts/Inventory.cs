@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class Inventory : MonoBehaviour
 {
     [SerializeField] private int pokemonInParty = 0;
@@ -13,9 +14,11 @@ public class Inventory : MonoBehaviour
     [SerializeField] private GameObject pokemonPrefab;
     [SerializeField] private GameObject pokemonInventory;
     [SerializeField] private GameObject starterSelectionCanvas;
+    private GamePlayer gamePlayer;
     // Start is called before the first frame update
     void Start()
     {
+        gamePlayer = GetComponent<GamePlayer>();
         starterSelectionCanvas.gameObject.SetActive(true);
         pokemonController = GameObject.Find("Pokemon").GetComponent<PokemonController>();
         chatManager = gameObject.GetComponent<ChatManager>();
@@ -61,6 +64,8 @@ public class Inventory : MonoBehaviour
                 newPokemon.transform.GetChild(0).GetComponent<Image>().sprite = pokemon.GetSprite();
                 newPokemon.transform.GetChild(1).GetComponentInChildren<Text>().text = pokemon.GetCatchDifficulty().ToString();
                 newPokemon.GetComponent<InventoryItem>().SetIndex(i);
+                // Send message to server to add pokemon to party
+                gamePlayer.CmdAddPokemon(pokemon.GetId());
                 break;
             }
         }
@@ -79,6 +84,8 @@ public class Inventory : MonoBehaviour
             pokemonParty[pokemonToReplace] = pokemon;
             pokemonPartyUI[pokemonToReplace].transform.GetChild(0).GetComponent<Image>().sprite = pokemon.GetSprite();
             pokemonPartyUI[pokemonToReplace].transform.GetChild(1).GetComponentInChildren<Text>().text = pokemon.GetCatchDifficulty().ToString();
+            // Send message to server to replace pokemon
+            gamePlayer.CmdSetPokemonAt(pokemonToReplace, pokemon.GetId());
         }
         else {
             chatManager.CmdSendMessage("Could not add " + pokemon.GetName() + "(" + pokemon.GetCatchDifficulty().ToString() + ")" +" to thier party because it is too weak :(");

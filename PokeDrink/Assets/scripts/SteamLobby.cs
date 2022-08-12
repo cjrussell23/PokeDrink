@@ -37,6 +37,7 @@ public class SteamLobby : MonoBehaviour
         public CSteamID m_SteamID;
         public LobbyMetaData[] m_Data;
     }
+
     struct Lobby
     {
         public CSteamID m_SteamID;
@@ -50,37 +51,42 @@ public class SteamLobby : MonoBehaviour
     {
         networkManager = GetComponent<NetworkManager>();
 
-        if (!SteamManager.Initialized) { return; }
+        if (!SteamManager.Initialized)
+        {
+            return;
+        }
         MakeInstance();
 
         lobbyCreated = Callback<LobbyCreated_t>.Create(OnLobbyCreated);
-        gameLobbyJoinRequested = Callback<GameLobbyJoinRequested_t>.Create(OnGameLobbyJoinRequested);
+        gameLobbyJoinRequested = Callback<GameLobbyJoinRequested_t>.Create(
+            OnGameLobbyJoinRequested
+        );
         lobbyEntered = Callback<LobbyEnter_t>.Create(OnLobbyEntered);
         Callback_lobbyList = Callback<LobbyMatchList_t>.Create(OnGetLobbiesList);
         Callback_lobbyInfo = Callback<LobbyDataUpdate_t>.Create(OnGetLobbyInfo);
     }
+
     void MakeInstance()
     {
         if (instance == null)
             instance = this;
     }
-    public void HostLobby()
-    {
 
-    }
+    public void HostLobby() { }
+
     public void JoinLobby(CSteamID lobbyId)
     {
         Debug.Log("JoinLobby: Will try to join lobby with steam id: " + lobbyId.ToString());
         SteamMatchmaking.JoinLobby(lobbyId);
     }
+
     public void GetListOfLobbies()
     {
-
         if (lobbyIDS.Count > 0)
             lobbyIDS.Clear();
 
         SteamMatchmaking.AddRequestLobbyListFilterSlotsAvailable(1);
-        
+
         SteamAPICall_t try_getList = SteamMatchmaking.RequestLobbyList();
     }
 
@@ -97,23 +103,25 @@ public class SteamLobby : MonoBehaviour
         SteamMatchmaking.SetLobbyData(
             new CSteamID(callback.m_ulSteamIDLobby),
             HostAddressKey,
-            SteamUser.GetSteamID().ToString());
+            SteamUser.GetSteamID().ToString()
+        );
         if (MainMenuManager.instance.didPlayerNameTheLobby)
         {
             SteamMatchmaking.SetLobbyData(
-            new CSteamID(callback.m_ulSteamIDLobby),
-            "name",
-            MainMenuManager.instance.lobbyName);
+                new CSteamID(callback.m_ulSteamIDLobby),
+                "name",
+                MainMenuManager.instance.lobbyName
+            );
             MainMenuManager.instance.didPlayerNameTheLobby = false;
         }
         else
         {
             SteamMatchmaking.SetLobbyData(
-            new CSteamID(callback.m_ulSteamIDLobby),
-            "name",
-            SteamFriends.GetPersonaName().ToString() + "'s lobby");
+                new CSteamID(callback.m_ulSteamIDLobby),
+                "name",
+                SteamFriends.GetPersonaName().ToString() + "'s lobby"
+            );
         }
-        
     }
 
     private void OnGameLobbyJoinRequested(GameLobbyJoinRequested_t callback)
@@ -124,14 +132,17 @@ public class SteamLobby : MonoBehaviour
 
     private void OnLobbyEntered(LobbyEnter_t callback)
     {
-        
         current_lobbyID = callback.m_ulSteamIDLobby;
         Debug.Log("OnLobbyEntered for lobby with id: " + current_lobbyID.ToString());
-        if (NetworkServer.active) { return; }
+        if (NetworkServer.active)
+        {
+            return;
+        }
 
         string hostAddress = SteamMatchmaking.GetLobbyData(
             new CSteamID(callback.m_ulSteamIDLobby),
-            HostAddressKey);
+            HostAddressKey
+        );
 
         networkManager.networkAddress = hostAddress;
         networkManager.StartClient();
@@ -142,6 +153,7 @@ public class SteamLobby : MonoBehaviour
                 MainMenuManager.instance.DestroyOldLobbyListItems();
         }
     }
+
     void OnGetLobbiesList(LobbyMatchList_t result)
     {
         Debug.Log("Found " + result.m_nLobbiesMatching + " lobbies!");
@@ -152,14 +164,14 @@ public class SteamLobby : MonoBehaviour
             CSteamID lobbyID = SteamMatchmaking.GetLobbyByIndex(i);
             lobbyIDS.Add(lobbyID);
             SteamMatchmaking.RequestLobbyData(lobbyID);
-
         }
-        
     }
+
     void OnGetLobbyInfo(LobbyDataUpdate_t result)
     {
         MainMenuManager.instance.DisplayLobbies(lobbyIDS, result);
     }
+
     void DestroyOldLobbyListItems()
     {
         Debug.Log("DestroyOldLobbyListItems");
@@ -174,6 +186,6 @@ public class SteamLobby : MonoBehaviour
 
     public void CreateNewLobby(ELobbyType lobbyType)
     {
-       SteamMatchmaking.CreateLobby(lobbyType, networkManager.maxConnections);
+        SteamMatchmaking.CreateLobby(lobbyType, networkManager.maxConnections);
     }
 }

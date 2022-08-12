@@ -7,6 +7,7 @@ public class CatchPhase : MonoBehaviour
 {
     // Other Player Scripts
     private ChatManager chatManager;
+    private Badges badges;
     // Game Scripts
     private PokemonController pokemonController;
     // Pokemon attributes
@@ -39,6 +40,7 @@ public class CatchPhase : MonoBehaviour
 
     void Start()
     {
+        badges = GetComponent<Badges>();
         dice = GetComponent<Dice>();
         playerInfo = GetComponent<PlayerInfo>();
         chatManager = gameObject.GetComponent<ChatManager>();
@@ -50,10 +52,18 @@ public class CatchPhase : MonoBehaviour
         Collider2D gym = Physics2D.OverlapCircle(position, 0.3f, gymLayerMask);
         if (gym)
         {
-            Debug.Log("Player is in a gym, Startin battle");
+            // Check if player has the right badges to enter the gym
             GymEncounter gymEncounter = gym.gameObject.GetComponent<GymEncounter>();
-            inBattle = true;
-            StartBattle(gymEncounter);
+            if (badges.GetBadges() + 1 == gymEncounter.GetGymID()){
+                Debug.Log("Player is in a gym, Startin battle");
+                inBattle = true;
+                StartBattle(gymEncounter);
+            }
+            else {
+                Debug.Log("Player is in a gym, but doesn't have the right badges");
+                chatManager.localPlayerMessage("You don't have the right badges to enter this gym");
+                inBattle = false;
+            }
         }
         else
         {
@@ -79,6 +89,7 @@ public class CatchPhase : MonoBehaviour
         if (roll > gymRoll)
         {
             encounterMessage.text = pokemon.GetName() + " defeated " + gymLeaderName + "'s " + gymPokemon.GetName() + "!";
+            badges.AddBadge();
             chatManager.CmdSendMessage(pokemon.GetName() + " defeated " + gymLeaderName + "'s " + gymPokemon.GetName() + "!");
         }
         else

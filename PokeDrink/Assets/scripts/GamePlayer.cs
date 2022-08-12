@@ -17,6 +17,62 @@ public class GamePlayer : NetworkBehaviour
     [SyncVar] public bool IsGameLeader = false;
     [SyncVar(hook = nameof(HandlePlayerReadyStatusChange))] public bool isPlayerReady;
     [SyncVar] public ulong playerSteamId;
+    [SyncVar(hook = nameof(HandlePlayerBadgeCountUpdate))] public int playerBadgeCount;
+    public SyncList<int> playerPokemon = new SyncList<int>();
+    private PlayerInventoriesManager playerInventoriesManager;
+    public void HandlePlayerBadgeCountUpdate(int oldValue, int newValue)
+    {
+        playerBadgeCount = newValue;
+        if (playerInventoriesManager != null)
+        {
+            playerInventoriesManager.UpdateBadges(playerBadgeCount);
+        }
+    }
+    [Command]
+    public void CmdSetPlayerBadgeCount(int badgeCount)
+    {
+        playerBadgeCount = badgeCount;
+    }
+    [Command]
+    public void CmdAddPokemon(int pokemonId)
+    {
+        playerPokemon.Add(pokemonId);
+    }
+    [Command]
+    public void CmdSetPokemonAt(int index, int pokemonId)
+    {
+        playerPokemon[index] = pokemonId;
+    }
+    [Command]
+    public void CmdRemovePokemonAt(int index)
+    {
+        playerPokemon.RemoveAt(index);
+    }
+    public void HandlePlayerPokemonUpdate(SyncList<int>.Operation op, int index, int oldPokemonID, int newPokemonID)
+    {
+        Debug.Log("Player pokemon update: " + op + " at index: " + index);
+        if (op == SyncList<int>.Operation.OP_ADD)
+        {
+            Debug.Log("Player pokemon added: " + newPokemonID);
+        }
+        else if (op == SyncList<int>.Operation.OP_CLEAR)
+        {
+            Debug.Log("Player pokemon cleared");
+        }
+        else if (op == SyncList<int>.Operation.OP_REMOVEAT)
+        {
+            Debug.Log("Player pokemon removed: " + oldPokemonID);
+        }
+        else if (op == SyncList<int>.Operation.OP_SET)
+        {
+            Debug.Log("Player pokemon set: " + newPokemonID);
+        }
+        if (playerInventoriesManager == null)
+        {
+            playerInventoriesManager = FindObjectOfType<PlayerInventoriesManager>();
+        }
+        playerInventoriesManager.UpdateInventories();
+    }
 
     private MyNetworkManager game;
     private MyNetworkManager Game
@@ -46,6 +102,7 @@ public class GamePlayer : NetworkBehaviour
     public override void OnStartClient()
     {
         Game.GamePlayers.Add(this);
+        playerPokemon.Callback += HandlePlayerPokemonUpdate;
         LobbyManager.instance.UpdateLobbyName();
         LobbyManager.instance.UpdateUI();        
     }

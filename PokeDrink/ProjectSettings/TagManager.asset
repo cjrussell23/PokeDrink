@@ -8,6 +8,9 @@ TagManager:
   - Walls
   - Teleporter
   - Grass
+  - TabMenu
+  - PokemonNetworkItem
+  - Badge
   layers:
   - Default
   - TransparentFX

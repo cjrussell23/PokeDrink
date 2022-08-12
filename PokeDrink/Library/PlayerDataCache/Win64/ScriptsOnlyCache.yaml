@@ -1,6 +1,7 @@
 ScriptsOnlyBuild:
   usedScripts:
     Assembly-CSharp.dll:
+    - Badges
     - CatchPhase
     - ChatManager
     - Dice
@@ -15,9 +16,9 @@ ScriptsOnlyBuild:
     - MainMenuManager
     - MovementCounter
     - MyNetworkManager
-    - NetworkInventory
     - PlayerCamera
     - PlayerInfo
+    - PlayerInventoriesManager
     - PlayerListItem
     - PokemonController
     - SteamLobby
@@ -128,87 +129,87 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 1498}
     - Class: 114
-      Script: {instanceID: 1586}
+      Script: {instanceID: 1584}
     - Class: 114
-      Script: {instanceID: 1690}
+      Script: {instanceID: 1688}
     - Class: 114
-      Script: {instanceID: 1722}
+      Script: {instanceID: 1720}
+    - Class: 114
+      Script: {instanceID: 1758}
     - Class: 114
       Script: {instanceID: 1760}
     - Class: 114
-      Script: {instanceID: 1762}
+      Script: {instanceID: 1776}
     - Class: 114
-      Script: {instanceID: 1778}
+      Script: {instanceID: 1858}
     - Class: 114
-      Script: {instanceID: 1860}
+      Script: {instanceID: 2002}
     - Class: 114
-      Script: {instanceID: 2004}
+      Script: {instanceID: 2076}
     - Class: 114
-      Script: {instanceID: 2078}
+      Script: {instanceID: 2094}
     - Class: 114
-      Script: {instanceID: 2096}
+      Script: {instanceID: 2228}
     - Class: 114
-      Script: {instanceID: 2230}
+      Script: {instanceID: 2276}
     - Class: 114
-      Script: {instanceID: 2278}
+      Script: {instanceID: 2392}
     - Class: 114
-      Script: {instanceID: 2394}
+      Script: {instanceID: 2616}
     - Class: 114
-      Script: {instanceID: 2618}
+      Script: {instanceID: 2728}
     - Class: 114
-      Script: {instanceID: 2730}
+      Script: {instanceID: 2748}
     - Class: 114
-      Script: {instanceID: 2750}
+      Script: {instanceID: 2800}
     - Class: 114
-      Script: {instanceID: 2802}
+      Script: {instanceID: 3036}
     - Class: 114
-      Script: {instanceID: 3038}
+      Script: {instanceID: 3158}
     - Class: 114
-      Script: {instanceID: 3160}
+      Script: {instanceID: 3220}
     - Class: 114
-      Script: {instanceID: 3222}
+      Script: {instanceID: 3234}
     - Class: 114
-      Script: {instanceID: 3236}
+      Script: {instanceID: 3262}
     - Class: 114
-      Script: {instanceID: 3264}
+      Script: {instanceID: 3328}
     - Class: 114
-      Script: {instanceID: 3330}
+      Script: {instanceID: 3346}
     - Class: 114
-      Script: {instanceID: 3348}
+      Script: {instanceID: 3554}
     - Class: 114
-      Script: {instanceID: 3556}
+      Script: {instanceID: 3662}
     - Class: 114
-      Script: {instanceID: 3664}
+      Script: {instanceID: 3702}
     - Class: 114
-      Script: {instanceID: 3704}
+      Script: {instanceID: 3776}
     - Class: 114
-      Script: {instanceID: 3778}
+      Script: {instanceID: 4276}
     - Class: 114
-      Script: {instanceID: 4124}
+      Script: {instanceID: 4296}
     - Class: 114
-      Script: {instanceID: 4278}
+      Script: {instanceID: 4460}
     - Class: 114
-      Script: {instanceID: 4298}
+      Script: {instanceID: 4562}
     - Class: 114
-      Script: {instanceID: 4462}
+      Script: {instanceID: 4584}
     - Class: 114
-      Script: {instanceID: 4564}
+      Script: {instanceID: 4704}
     - Class: 114
-      Script: {instanceID: 4586}
+      Script: {instanceID: 4848}
     - Class: 114
-      Script: {instanceID: 4706}
+      Script: {instanceID: 4884}
     - Class: 114
-      Script: {instanceID: 4850}
+      Script: {instanceID: 4916}
     - Class: 114
-      Script: {instanceID: 4886}
+      Script: {instanceID: 5020}
     - Class: 114
-      Script: {instanceID: 4918}
+      Script: {instanceID: 5124}
     - Class: 114
-      Script: {instanceID: 5022}
+      Script: {instanceID: 5360}
     - Class: 114
-      Script: {instanceID: 5126}
-    - Class: 114
-      Script: {instanceID: 5362}
+      Script: {instanceID: 147742}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -255,17 +256,17 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 660}
     - Class: 114
-      Script: {instanceID: 2750}
+      Script: {instanceID: 2748}
     - Class: 114
-      Script: {instanceID: 3118}
+      Script: {instanceID: 3116}
     - Class: 114
-      Script: {instanceID: 3222}
+      Script: {instanceID: 3220}
     - Class: 114
-      Script: {instanceID: 4550}
+      Script: {instanceID: 4548}
     - Class: 114
-      Script: {instanceID: 4574}
+      Script: {instanceID: 4572}
     - Class: 114
-      Script: {instanceID: 4886}
+      Script: {instanceID: 4884}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 157
@@ -312,41 +313,45 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 1496}
     - Class: 114
-      Script: {instanceID: 1586}
+      Script: {instanceID: 1584}
     - Class: 114
-      Script: {instanceID: 1690}
+      Script: {instanceID: 1688}
     - Class: 114
-      Script: {instanceID: 1860}
+      Script: {instanceID: 1758}
     - Class: 114
-      Script: {instanceID: 2156}
+      Script: {instanceID: 1858}
     - Class: 114
-      Script: {instanceID: 2394}
+      Script: {instanceID: 2154}
     - Class: 114
-      Script: {instanceID: 2618}
+      Script: {instanceID: 2392}
     - Class: 114
-      Script: {instanceID: 2750}
+      Script: {instanceID: 2616}
     - Class: 114
-      Script: {instanceID: 2802}
+      Script: {instanceID: 2748}
     - Class: 114
-      Script: {instanceID: 3222}
+      Script: {instanceID: 2800}
     - Class: 114
-      Script: {instanceID: 3236}
+      Script: {instanceID: 3220}
     - Class: 114
-      Script: {instanceID: 3330}
+      Script: {instanceID: 3234}
     - Class: 114
-      Script: {instanceID: 3556}
+      Script: {instanceID: 3328}
     - Class: 114
-      Script: {instanceID: 3694}
+      Script: {instanceID: 3554}
     - Class: 114
-      Script: {instanceID: 3704}
+      Script: {instanceID: 3692}
     - Class: 114
-      Script: {instanceID: 4298}
+      Script: {instanceID: 3702}
     - Class: 114
-      Script: {instanceID: 4462}
+      Script: {instanceID: 4296}
     - Class: 114
-      Script: {instanceID: 4564}
+      Script: {instanceID: 4460}
     - Class: 114
-      Script: {instanceID: 4666}
+      Script: {instanceID: 4562}
+    - Class: 114
+      Script: {instanceID: 4664}
+    - Class: 114
+      Script: {instanceID: 74428}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -554,7 +559,7 @@ ScriptsOnlyBuild:
     className: RandomColor
   - hash:
       serializedVersion: 2
-      Hash: 09d8f33dd4a697f860c95bb2c2da2015
+      Hash: 77f2a458d7786df27846c866d65d854b
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: GridMovement
@@ -740,12 +745,6 @@ ScriptsOnlyBuild:
     className: NetworkLerpRigidbody
   - hash:
       serializedVersion: 2
-      Hash: 61b84d7b908a9c945831d111b2de1a3e
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: MessageController
-  - hash:
-      serializedVersion: 2
       Hash: 1d12411bfa32d734c4dad798554fe0fa
     assemblyName: Mirror.Components.dll
     namespaceName: Mirror
@@ -788,7 +787,7 @@ ScriptsOnlyBuild:
     className: Teleporter
   - hash:
       serializedVersion: 2
-      Hash: 074d0d76d17185ce123f2ceb9f9d7ce5
+      Hash: dbdabcc0c5fc83f0dd4d2d9d4d1b7f3d
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: GamePlayer
@@ -1040,12 +1039,6 @@ ScriptsOnlyBuild:
     className: DistanceInterestManagement
   - hash:
       serializedVersion: 2
-      Hash: 6fd2bb55b3ee5edb6040a1c5bccd0e07
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: NetworkInventory
-  - hash:
-      serializedVersion: 2
       Hash: a5781dc71a671b1ad2b38de19f24b71f
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
@@ -1166,7 +1159,7 @@ ScriptsOnlyBuild:
     className: RectMask2D
   - hash:
       serializedVersion: 2
-      Hash: d787fddc9a867856142da251b853037f
+      Hash: 07678265d7937497ead0f80d06be9c57
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: GymEncounter
@@ -1374,9 +1367,21 @@ ScriptsOnlyBuild:
     assemblyName: Mirror.Examples.dll
     namespaceName: Mirror.Examples.NetworkRoom
     className: NetworkRoomPlayerExt
+  - hash:
+      serializedVersion: 2
+      Hash: d4d09e1e8c69a9e80bf9d67df6706e18
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: PlayerInventoriesManager
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Badges
   platform: 19
   scenePathNames:
   - Assets/Scenes/Scene_Steamworks.unity
   - Assets/Scenes/Scene_SteamworksLobby.unity
   - Assets/Scenes/Scene_SteamworksGame.unity
-  playerPath: C:/Users/chjru/Desktop/Pokedrink Builds/v0.0.8/PokeDrink.exe
+  playerPath: C:/Users/chjru/Desktop/Pokedrink Builds/v0.0.9/PokeDrink.exe

@@ -485,7 +485,7 @@ public class PokemonController : MonoBehaviour
         pokemonSprites = Resources.LoadAll<Sprite>("Pokemon/");
         for (int i = 0; i < 151; i++)
         {
-            pokemon[i] = new Pokemon(pokemonNames[i], pokemonSprites[i], pokemonCatchDifficulty[i]);
+            pokemon[i] = new Pokemon(pokemonNames[i], pokemonSprites[i], pokemonCatchDifficulty[i], i+1);
         }
         foreach (Pokemon p in pokemon)
         {
@@ -540,15 +540,21 @@ public class PokemonController : MonoBehaviour
     }
 }
 public class Pokemon {
+    private int id;
     private string name;
     private Sprite sprite;
     private int catchDifficulty;
     private bool isLocked;
-    public Pokemon (string name, Sprite sprite, int catchDifficulty) {
+    public Pokemon (string name, Sprite sprite, int catchDifficulty, int id) {
         this.name = name;
         this.sprite = sprite;
         this.catchDifficulty = catchDifficulty;
         this.isLocked = false;
+        this.id = id;
+    }
+    public int GetId()
+    {
+        return id;
     }
     public string GetName()
     {

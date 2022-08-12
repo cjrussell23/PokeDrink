@@ -19,6 +19,8 @@ public class GridMovement : NetworkBehaviour
     private bool canMove;
     private MovementCounter movementCounter;
     private GameManager gameManager;
+    [SerializeField]
+    private GameObject tabMenu;
     // Other scripts that have controls
     private Dice dice;
     private PlayerInfo playerInfo;
@@ -31,6 +33,7 @@ public class GridMovement : NetworkBehaviour
 
     public void Start()
     {
+        tabMenu = GameObject.FindGameObjectWithTag("TabMenu").transform.GetChild(0).gameObject;
         catchPhase = GetComponent<CatchPhase>();
         playerInfo = GetComponent<PlayerInfo>();
         dice = GetComponent<Dice>();
@@ -75,6 +78,12 @@ public class GridMovement : NetworkBehaviour
                 else {
                     playerInfo.ChangePlayerReadyState();
                 }
+            }
+            if (Input.GetKeyDown(KeyCode.Tab)){
+                tabMenu.SetActive(true);
+            }
+            if (Input.GetKeyUp(KeyCode.Tab)) {
+                tabMenu.SetActive(false);
             }
         } 
     }
