@@ -85,6 +85,11 @@ public class GridMovement : NetworkBehaviour
             if (Input.GetKeyUp(KeyCode.Tab)) {
                 tabMenu.SetActive(false);
             }
+            if (Input.GetKeyDown(KeyCode.Escape)){
+                if (catchPhase.inEvent){
+                    catchPhase.CloseEvent();
+                }
+            }
         } 
     }
 
@@ -164,6 +169,7 @@ public class GridMovement : NetworkBehaviour
         }
         animator.SetBool("isWalking", false);
         isMoveing = false;
+        catchPhase.CheckForEvent();
     }
 
     private void OnTriggerEnter2D(Collider2D other)

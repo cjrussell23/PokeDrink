@@ -39,7 +39,11 @@ public class CatchPhase : MonoBehaviour
     private string gymLeaderName;
     private PlayerInfo playerInfo;
     private Dice dice;
-
+    // Events
+    public bool inEvent;
+    [SerializeField] private Text eventText;
+    [SerializeField] private GameObject eventPanel;
+    [SerializeField] private LayerMask eventLayerMask;
     void Start()
     {
         badges = GetComponent<Badges>();
@@ -73,6 +77,36 @@ public class CatchPhase : MonoBehaviour
             inBattle = false;
         }
         return inBattle;
+    }
+    public void CheckForEvent(){
+        Debug.Log("CheckForEvent");
+        Vector3 position = transform.position;
+        Collider2D eventCollider = Physics2D.OverlapCircle(position, 0.3f, eventLayerMask);
+        if (eventCollider)
+        {
+            eventCollider.gameObject.SetActive(false);
+            inEvent = true;
+            Debug.Log("Player is in an event");
+            // eventText.text = eventCollider.gameObject.GetComponent<gameEvent>().GetEventMessage();
+            eventText.text = "";
+            eventPanel.SetActive(true);
+            IEnumerator writingMessage = WriteMessage(eventCollider.gameObject.GetComponent<gameEvent>().GetEventMessage(), eventText);
+            StartCoroutine(writingMessage);
+        }
+    }
+    public IEnumerator WriteMessage(string message, Text textObject){
+        char[] characters = message.ToCharArray();
+        string currentMessage = "";
+        foreach (char c in characters){
+            currentMessage += c;
+            textObject.text = currentMessage;
+            yield return new WaitForSeconds(0.05f);
+        }
+    }
+    public void CloseEvent(){
+        Debug.Log("CloseEvent");
+        inEvent = false;
+        eventPanel.SetActive(false);
     }
     public void StartBattle(GymEncounter gymEncounter){
         Debug.Log("StartBattle");
@@ -258,6 +292,7 @@ public class CatchPhase : MonoBehaviour
     }
     public void RunAway(){
         encounterMessage.text = "You ran away!";
+        chatManager.CmdSendMessage("Ran away from " + pokemonName + " like a coward. They must take a drink to get back to their senses.");
         dice.ResetRolls(0);
         StartCoroutine(WaitForText());
         playerInfo.ToggleGameStateImage(false);

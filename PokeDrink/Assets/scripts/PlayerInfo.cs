@@ -83,7 +83,7 @@ public class PlayerInfo : NetworkBehaviour
         gamePlayer = GetComponent<GamePlayer>();
         dice = GetComponent<Dice>();
         chatManager = GetComponent<ChatManager>();
-        chanceOfEvent = 25;
+        chanceOfEvent = 10;
         catchPhase = GetComponent<CatchPhase>();
         CmdSetPlayerName(SteamFriends.GetPersonaName().ToString());
         playerReadyButtonImage = playerReadyButton.GetComponent<Image>();
@@ -225,7 +225,7 @@ public class PlayerInfo : NetworkBehaviour
             if (gameState == GameManager.GameState.Catch)
             {
                 int random = UnityEngine.Random.Range(0, 100);
-                if (catchPhase.inGrass || catchPhase.inBattle){
+                if (catchPhase.inGrass || catchPhase.inBattle || catchPhase.inEvent){
                     gamePlayer.CmdSetPlayerAvailableForPlayerBattle(false);
                 }
                 else{
@@ -242,38 +242,9 @@ public class PlayerInfo : NetworkBehaviour
                     gameStateText.text = "Roll the Dice to attack!";
                     gameStateImage.gameObject.SetActive(true);
                 }
-                // Random event chance of %25
                 else if (random <= chanceOfEvent)
                 {
-                    // Random event
-                    int randomEvent = UnityEngine.Random.Range(0, 5);
-                    // int randomEvent = 4;
-                    switch (randomEvent)
-                    {
-                        case 0:
-                            chatManager.CmdSendMessage(
-                                "Stubbed thier toe. They must kiss it better, or drink to numb the pain."
-                            );
-                            break;
-                        case 1:
-                            chatManager.CmdSendMessage(
-                                "is given an egg by a mysterious man... They must hold it close until it hatches."
-                            );
-                            break;
-                        case 2:
-                            chatManager.CmdSendMessage(
-                                "!! YOUR EGG HATCHED !! If you don't have an egg, drink as you ponder why..."
-                            );
-                            break;
-                        case 3:
-                            chatManager.CmdSendMessage(
-                                "A wild Drowzee used confusion!?!? You must can only talk in one syllable words till you enounter another Drowzee to remove your trance."
-                            );
-                            break;
-                        case 4:
-                            CheckForPlayerBattle();
-                            break;
-                    }
+                    CheckForPlayerBattle();
                 }
                 else
                 {
