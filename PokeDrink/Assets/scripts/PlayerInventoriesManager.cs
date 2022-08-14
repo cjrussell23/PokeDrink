@@ -108,7 +108,7 @@ public class PlayerInventoriesManager : MonoBehaviour
             index++;
         }
     }
-    public void UpdateBadges(int badgeCount){
+    public void UpdateBadges(){
         int index = 0;
         foreach (GamePlayer player in Game.GamePlayers)
         {
@@ -121,6 +121,7 @@ public class PlayerInventoriesManager : MonoBehaviour
                 }
             }
             // Spawn new badges
+            int badgeCount = player.GetPlayerBadgeCount();
             for(int i = 0; i < badgeCount; i++){
                 GameObject badge = Instantiate(badgePrefab, listOfInventories[index].transform.GetChild(2));
                 badge.transform.GetChild(0).GetComponent<Image>().sprite = badges[i];

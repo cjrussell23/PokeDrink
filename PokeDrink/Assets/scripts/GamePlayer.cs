@@ -18,14 +18,22 @@ public class GamePlayer : NetworkBehaviour
     [SyncVar(hook = nameof(HandlePlayerReadyStatusChange))] public bool isPlayerReady;
     [SyncVar] public ulong playerSteamId;
     [SyncVar(hook = nameof(HandlePlayerBadgeCountUpdate))] public int playerBadgeCount;
+    [SyncVar] public bool availableForPlayerBattle;
     public SyncList<int> playerPokemon = new SyncList<int>();
     private PlayerInventoriesManager playerInventoriesManager;
+    private PokemonController pokemonController;
+
+    [Command]
+    public void CmdSetPlayerAvailableForPlayerBattle(bool available)
+    {
+        availableForPlayerBattle = available;
+    }
     public void HandlePlayerBadgeCountUpdate(int oldValue, int newValue)
     {
         playerBadgeCount = newValue;
         if (playerInventoriesManager != null)
         {
-            playerInventoriesManager.UpdateBadges(playerBadgeCount);
+            playerInventoriesManager.UpdateBadges();
         }
     }
     [Command]
@@ -47,6 +55,9 @@ public class GamePlayer : NetworkBehaviour
     public void CmdRemovePokemonAt(int index)
     {
         playerPokemon.RemoveAt(index);
+    }
+    public int GetPlayerBadgeCount(){
+        return playerBadgeCount;
     }
     public void HandlePlayerPokemonUpdate(SyncList<int>.Operation op, int index, int oldPokemonID, int newPokemonID)
     {
@@ -103,6 +114,7 @@ public class GamePlayer : NetworkBehaviour
     {
         Game.GamePlayers.Add(this);
         playerPokemon.Callback += HandlePlayerPokemonUpdate;
+        pokemonController = GameObject.Find("Pokemon").GetComponent<PokemonController>();
         LobbyManager.instance.UpdateLobbyName();
         LobbyManager.instance.UpdateUI();        
     }

@@ -35,7 +35,6 @@ ScriptsOnlyBuild:
     - UnityEditor.U2D.Sprites.SpriteEditorWindow
     Unity.2D.Tilemap.Editor.dll:
     - UnityEditor.Tilemaps.GridBrush
-    - UnityEditor.Tilemaps.GridBrushEditor
     - UnityEditor.Tilemaps.GridPaintPaletteClipboard
     - UnityEditor.Tilemaps.GridPaintPaletteWindow
     - UnityEditor.Tilemaps.GridPaintingState
@@ -58,8 +57,10 @@ ScriptsOnlyBuild:
     UnityEditor.Graphs.dll:
     - UnityEditor.Graphs.AnimationBlendTree.Graph
     - UnityEditor.Graphs.AnimationBlendTree.GraphGUI
+    - UnityEditor.Graphs.AnimationStateMachine.AnyStateNode
     - UnityEditor.Graphs.AnimationStateMachine.Graph
     - UnityEditor.Graphs.AnimationStateMachine.GraphGUI
+    - UnityEditor.Graphs.AnimationStateMachine.StateNode
     - UnityEditor.Graphs.AnimatorControllerTool
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
@@ -163,53 +164,53 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 2800}
     - Class: 114
-      Script: {instanceID: 3036}
+      Script: {instanceID: 3034}
     - Class: 114
-      Script: {instanceID: 3158}
+      Script: {instanceID: 3156}
     - Class: 114
-      Script: {instanceID: 3220}
+      Script: {instanceID: 3218}
     - Class: 114
-      Script: {instanceID: 3234}
+      Script: {instanceID: 3232}
     - Class: 114
-      Script: {instanceID: 3262}
+      Script: {instanceID: 3260}
     - Class: 114
-      Script: {instanceID: 3328}
+      Script: {instanceID: 3326}
     - Class: 114
-      Script: {instanceID: 3346}
+      Script: {instanceID: 3344}
     - Class: 114
-      Script: {instanceID: 3554}
+      Script: {instanceID: 3552}
     - Class: 114
-      Script: {instanceID: 3662}
+      Script: {instanceID: 3660}
     - Class: 114
-      Script: {instanceID: 3702}
+      Script: {instanceID: 3700}
     - Class: 114
-      Script: {instanceID: 3776}
+      Script: {instanceID: 3774}
     - Class: 114
-      Script: {instanceID: 4276}
+      Script: {instanceID: 4272}
     - Class: 114
-      Script: {instanceID: 4296}
+      Script: {instanceID: 4292}
     - Class: 114
-      Script: {instanceID: 4460}
+      Script: {instanceID: 4456}
     - Class: 114
-      Script: {instanceID: 4562}
+      Script: {instanceID: 4508}
     - Class: 114
-      Script: {instanceID: 4584}
+      Script: {instanceID: 4560}
     - Class: 114
-      Script: {instanceID: 4704}
+      Script: {instanceID: 4582}
     - Class: 114
-      Script: {instanceID: 4848}
+      Script: {instanceID: 4702}
     - Class: 114
-      Script: {instanceID: 4884}
+      Script: {instanceID: 4846}
     - Class: 114
-      Script: {instanceID: 4916}
+      Script: {instanceID: 4882}
     - Class: 114
-      Script: {instanceID: 5020}
+      Script: {instanceID: 4914}
     - Class: 114
-      Script: {instanceID: 5124}
+      Script: {instanceID: 5018}
     - Class: 114
-      Script: {instanceID: 5360}
+      Script: {instanceID: 5122}
     - Class: 114
-      Script: {instanceID: 147742}
+      Script: {instanceID: 5358}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -258,15 +259,15 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 2748}
     - Class: 114
-      Script: {instanceID: 3116}
+      Script: {instanceID: 3114}
     - Class: 114
-      Script: {instanceID: 3220}
+      Script: {instanceID: 3218}
     - Class: 114
-      Script: {instanceID: 4548}
+      Script: {instanceID: 4546}
     - Class: 114
-      Script: {instanceID: 4572}
+      Script: {instanceID: 4570}
     - Class: 114
-      Script: {instanceID: 4884}
+      Script: {instanceID: 4882}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 157
@@ -331,27 +332,27 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 2800}
     - Class: 114
-      Script: {instanceID: 3220}
+      Script: {instanceID: 3218}
     - Class: 114
-      Script: {instanceID: 3234}
+      Script: {instanceID: 3232}
     - Class: 114
-      Script: {instanceID: 3328}
+      Script: {instanceID: 3326}
     - Class: 114
-      Script: {instanceID: 3554}
+      Script: {instanceID: 3552}
     - Class: 114
-      Script: {instanceID: 3692}
+      Script: {instanceID: 3690}
     - Class: 114
-      Script: {instanceID: 3702}
+      Script: {instanceID: 3700}
     - Class: 114
-      Script: {instanceID: 4296}
+      Script: {instanceID: 4292}
     - Class: 114
-      Script: {instanceID: 4460}
+      Script: {instanceID: 4456}
     - Class: 114
-      Script: {instanceID: 4562}
+      Script: {instanceID: 4560}
     - Class: 114
-      Script: {instanceID: 4664}
+      Script: {instanceID: 4662}
     - Class: 114
-      Script: {instanceID: 74428}
+      Script: {instanceID: 5466}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -505,7 +506,7 @@ ScriptsOnlyBuild:
     className: HorizontalLayoutGroup
   - hash:
       serializedVersion: 2
-      Hash: 85f7c411b1285410e1a334744a58c86d
+      Hash: 3c581cd50b814bb7db0f8904672427a2
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PlayerInfo
@@ -613,7 +614,7 @@ ScriptsOnlyBuild:
     className: TMP_StyleSheet
   - hash:
       serializedVersion: 2
-      Hash: b3118b4ec04e72e2839375686ab7ab52
+      Hash: 32c84da7a4c7d841308dc909f6996301
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Dice
@@ -787,7 +788,7 @@ ScriptsOnlyBuild:
     className: Teleporter
   - hash:
       serializedVersion: 2
-      Hash: dbdabcc0c5fc83f0dd4d2d9d4d1b7f3d
+      Hash: 99381d38ad714599d722a5d26d617780
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: GamePlayer
@@ -1141,6 +1142,12 @@ ScriptsOnlyBuild:
     className: PhysicsRaycaster
   - hash:
       serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Badges
+  - hash:
+      serializedVersion: 2
       Hash: 0fb27be807aa299702f28ad0bcad1f46
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
@@ -1373,15 +1380,9 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PlayerInventoriesManager
-  - hash:
-      serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: Badges
   platform: 19
   scenePathNames:
   - Assets/Scenes/Scene_Steamworks.unity
   - Assets/Scenes/Scene_SteamworksLobby.unity
   - Assets/Scenes/Scene_SteamworksGame.unity
-  playerPath: C:/Users/chjru/Desktop/Pokedrink Builds/v0.0.9/PokeDrink.exe
+  playerPath: C:/Users/chjru/Desktop/Pokedrink Builds/v0.1.0/PokeDrink.exe

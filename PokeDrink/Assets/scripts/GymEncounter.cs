@@ -36,9 +36,9 @@ public class GymEncounter : MonoBehaviour
                 break;
             case 3:
                 gymLeaderName = "Lt. Surge";
-                pokemonParty[0] = pokemonController.GetPokemon(100); // Voltorb
-                pokemonParty[1] = pokemonController.GetPokemon(25); // Pikachu
-                pokemonParty[2] = pokemonController.GetPokemon(26); // Raichu
+                pokemonParty[0] = pokemonController.GetPokemon(100 - 1); // Voltorb
+                pokemonParty[1] = pokemonController.GetPokemon(25 - 1); // Pikachu
+                pokemonParty[2] = pokemonController.GetPokemon(26 - 1); // Raichu
                 break;
             case 4:
                 gymLeaderName = "Erika";

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using Steamworks;
@@ -26,7 +27,9 @@ public class PlayerInfo : NetworkBehaviour
 
     [SerializeField]
     private Text playerNameText;
-    [SerializeField] private Text playerNameTextMap;
+
+    [SerializeField]
+    private Text playerNameTextMap;
 
     // Player Color
     [SyncVar(hook = nameof(HandlePlayerColorUpdate))]
@@ -34,7 +37,9 @@ public class PlayerInfo : NetworkBehaviour
 
     [SerializeField]
     private Image playerColorImage;
-    [SerializeField] private Image playerColorImageMap;
+
+    [SerializeField]
+    private Image playerColorImageMap;
     private Color[] playerColors =
     {
         Color.red,
@@ -44,9 +49,9 @@ public class PlayerInfo : NetworkBehaviour
         Color.grey,
         Color.white
     };
-    public Color[] PlayerColors {
+    public Color[] PlayerColors
+    {
         get { return playerColors; }
-
     }
 
     // Player Ready State
@@ -64,9 +69,21 @@ public class PlayerInfo : NetworkBehaviour
     public Image gameStateImage;
     public GameManager gameManager;
     private CatchPhase catchPhase;
+    private Dice dice;
+
+    // Events
+    public int chanceOfEvent;
+    private ChatManager chatManager;
+    private GamePlayer gamePlayer;
+    private static event Action<string> OnBattleRequest;
 
     public override void OnStartAuthority()
     {
+        OnBattleRequest += HandleBattleRequest;
+        gamePlayer = GetComponent<GamePlayer>();
+        dice = GetComponent<Dice>();
+        chatManager = GetComponent<ChatManager>();
+        chanceOfEvent = 25;
         catchPhase = GetComponent<CatchPhase>();
         CmdSetPlayerName(SteamFriends.GetPersonaName().ToString());
         playerReadyButtonImage = playerReadyButton.GetComponent<Image>();
@@ -75,15 +92,32 @@ public class PlayerInfo : NetworkBehaviour
         int connectionId = GetComponent<GamePlayer>().ConnectionId;
         if (connectionId < playerColors.Length)
         {
-            Debug.Log("Assigining color " + playerColors[connectionId] + " to player " + connectionId + " " + SteamFriends.GetPersonaName());
+            Debug.Log(
+                "Assigining color "
+                    + playerColors[connectionId]
+                    + " to player "
+                    + connectionId
+                    + " "
+                    + SteamFriends.GetPersonaName()
+            );
             CmdSetPlayerColor(playerColors[connectionId]);
         }
         else
         {
-            CmdSetPlayerColor(playerColors[Random.Range(0, playerColors.Length)]);
+            CmdSetPlayerColor(playerColors[UnityEngine.Random.Range(0, playerColors.Length)]);
         }
     }
-
+    public void HandleBattleRequest(string playerName){
+        if (playerName == gamePlayer.playerName){
+            dice.ResetRolls(1);
+            dice.SetPlayerBattle(true);
+            Debug.Log("In battle");
+        }
+    }
+    [Command]
+    public void CmdSendBattleRequest(string playerName){
+        OnBattleRequest(playerName);
+    }
     // Player Name
     [Command]
     private void CmdSetPlayerName(string playerName)
@@ -165,7 +199,9 @@ public class PlayerInfo : NetworkBehaviour
         }
         if (hasAuthority)
         {
-            this.playerReadyButtonText.text = playerReadyState ? "Ready, waiting on other players" : "Not Ready, press SPACE to ready up";
+            this.playerReadyButtonText.text = playerReadyState
+                ? "Ready, waiting on other players"
+                : "Not Ready, press SPACE to ready up";
             this.playerReadyButtonImage.color = playerReadyState ? Color.green : Color.red;
         }
         if (gameManager == null)
@@ -180,6 +216,7 @@ public class PlayerInfo : NetworkBehaviour
     {
         if (hasAuthority)
         {
+            dice.ClearDiceText();
             if (gameState == GameManager.GameState.Movement)
             {
                 gameStateText.text = "Roll the Dice to move!";
@@ -187,25 +224,94 @@ public class PlayerInfo : NetworkBehaviour
             }
             if (gameState == GameManager.GameState.Catch)
             {
-                if (catchPhase.inGrass){
-                    gameStateText.text = "Roll the Dice to catch the Pokemon!\n(SPACE) to run away.";
+                int random = UnityEngine.Random.Range(0, 100);
+                if (catchPhase.inGrass || catchPhase.inBattle){
+                    gamePlayer.CmdSetPlayerAvailableForPlayerBattle(false);
+                }
+                else{
+                    gamePlayer.CmdSetPlayerAvailableForPlayerBattle(true);
+                }
+                if (catchPhase.inGrass)
+                {
+                    gameStateText.text =
+                        "Roll the Dice to catch the Pokemon!\n(SPACE) to run away.";
                     gameStateImage.gameObject.SetActive(true);
                 }
-                else if (catchPhase.inBattle){
+                else if (catchPhase.inBattle)
+                {
                     gameStateText.text = "Roll the Dice to attack!";
                     gameStateImage.gameObject.SetActive(true);
                 }
-                else {
+                // Random event chance of %25
+                else if (random <= chanceOfEvent)
+                {
+                    // Random event
+                    int randomEvent = UnityEngine.Random.Range(0, 5);
+                    // int randomEvent = 4;
+                    switch (randomEvent)
+                    {
+                        case 0:
+                            chatManager.CmdSendMessage(
+                                "Stubbed thier toe. They must kiss it better, or drink to numb the pain."
+                            );
+                            break;
+                        case 1:
+                            chatManager.CmdSendMessage(
+                                "is given an egg by a mysterious man... They must hold it close until it hatches."
+                            );
+                            break;
+                        case 2:
+                            chatManager.CmdSendMessage(
+                                "!! YOUR EGG HATCHED !! If you don't have an egg, drink as you ponder why..."
+                            );
+                            break;
+                        case 3:
+                            chatManager.CmdSendMessage(
+                                "A wild Drowzee used confusion!?!? You must can only talk in one syllable words till you enounter another Drowzee to remove your trance."
+                            );
+                            break;
+                        case 4:
+                            CheckForPlayerBattle();
+                            break;
+                    }
+                }
+                else
+                {
                     StartCoroutine(AutoReadyPlayer());
                 }
             }
         }
+    }
+
+    private void CheckForPlayerBattle()
+    {
+        foreach (GamePlayer player in Game.GamePlayers)
+        {
+            if (player != this.gameObject.GetComponent<GamePlayer>())
+            {
+                if (player.availableForPlayerBattle)
+                {
+                    chatManager.CmdSendMessage(
+                        "is challenging " + player.playerName + " to a battle!"
+                    );
+                    // Give each player a roll
+                    dice.ResetRolls(1);
+                    dice.SetPlayerBattle(true);
+                    CmdSendBattleRequest(player.playerName);
+                    return;
+                }
+            }
+        }
+        chatManager.CmdSendMessage(
+            "Wanted to battle; but no one was available. They must drink in loneliness because they have no friends."
+        );
     }
     private IEnumerator AutoReadyPlayer()
     {
         yield return new WaitForSeconds(1);
         ChangePlayerReadyState();
     }
+
     public void ToggleGameStateImage(bool toggle)
     {
         gameStateImage.gameObject.SetActive(toggle);

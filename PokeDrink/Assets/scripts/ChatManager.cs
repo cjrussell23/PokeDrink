@@ -15,8 +15,10 @@ public class ChatManager : NetworkBehaviour{
     [SerializeField] private List<Message> messageList = new List<Message>();
     [SerializeField] private GameObject playerMapImage;
     private static event Action<string> OnMessage;
+    private bool oddMessage;
     private Color[] playerColors;
     public void Start(){
+        oddMessage = true;
         chatUI.SetActive(false);
         playerMapImage.SetActive(false);
         playerColors = GetComponent<PlayerInfo>().PlayerColors;
@@ -86,14 +88,18 @@ public class ChatManager : NetworkBehaviour{
                 color = playerColors[5];
                 break;
             default:
-                color = Color.white;
+                color = Color.black;
                 break;
         }
         Message newMessage = new Message();
         newMessage.text = messageText;
         newMessage.color = color;
-        GameObject newText = Instantiate(messagePrefab, chatPanel.transform);
-        newMessage.textObject = newText.GetComponent<Text>();
+        GameObject newMessageObject = Instantiate(messagePrefab, chatPanel.transform);
+        if (oddMessage){
+            newMessageObject.transform.GetChild(0).GetComponent<Image>().color = new Color(0.85f, 0.85f, 0.85f);
+        }
+        oddMessage = !oddMessage;
+        newMessage.textObject = newMessageObject.transform.GetChild(0).GetChild(0).GetComponent<Text>();
         newMessage.textObject.text = newMessage.text;
         newMessage.textObject.color = newMessage.color;
         messageList.Add(newMessage);
